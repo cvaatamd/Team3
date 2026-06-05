@@ -139,12 +139,12 @@ def plan_cli(argv: list[str] | None = None) -> int:
     plan = load_plan(args.plan)
     data = load_expansionrx()
     if args.llm:
-        from agents.llm import AittaClient, AittaConfig
+        from agents.llm import LLMConfig, build_client
         from agents.llm_overrides import LLMPlanner
-        cfg = AittaConfig.from_yaml(args.llm_config) if args.llm_config.exists() \
-            else AittaConfig()
+        cfg = LLMConfig.from_yaml(args.llm_config) if args.llm_config.exists() \
+            else LLMConfig()
         planner = LLMPlanner(plan=plan, results_dir=args.results_dir, data=data,
-                             llm=AittaClient(cfg))
+                             llm=build_client(cfg))
     else:
         planner = Planner(plan=plan, results_dir=args.results_dir, data=data)
     from eval.curves import plot_curves, plot_ma_rae

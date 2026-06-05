@@ -84,14 +84,14 @@ class RunEnv:
 
 
 def _build_agents(data: ExpansionRxData, use_llm: bool, llm_config_path: Path | None = None):
-    """Construct (DataAgent, MLAgent). LLM-driven variants if `use_llm` (Aitta-backed)."""
+    """Construct (DataAgent, MLAgent). LLM-driven variants if `use_llm` (provider per config)."""
     if not use_llm:
         return DataAgent(data), MLAgent()
-    # Lazy import — the LLM module pulls in openai, which is an optional extra.
-    from agents.llm import AittaClient, AittaConfig
+    # Lazy import — the LLM module pulls in openai/anthropic, both optional extras.
+    from agents.llm import LLMConfig, build_client
     from agents.llm_overrides import LLMDataAgent, LLMMLAgent
-    cfg = AittaConfig.from_yaml(llm_config_path) if llm_config_path else AittaConfig()
-    client = AittaClient(cfg)
+    cfg = LLMConfig.from_yaml(llm_config_path) if llm_config_path else LLMConfig()
+    client = build_client(cfg)
     return LLMDataAgent(data, client), LLMMLAgent(client)
 
 

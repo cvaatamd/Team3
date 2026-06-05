@@ -1,14 +1,26 @@
-# Aitta (CSC LUMI LLM inference) defaults.
-# Token is loaded from $AITTA_API_TOKEN at runtime (file path also accepted via $AITTA_API_TOKEN_FILE).
-base_url: "https://aitta-api.csc.fi/openai/v1"
-model: "LumiOpen/Llama-Poro-2-70B-Instruct"   # change to gpt-oss-120b, Qwen3-Coder-Next, etc.
+# LLM provider config — used by the LLM-driven agents in src/agents/llm_overrides.py.
+#
+# Switch between providers by editing `provider` below. Tokens come from env:
+#   aitta     -> $AITTA_API_TOKEN  (https://aitta-auth.csc.fi/myToken)
+#   anthropic -> $ANTHROPIC_API_KEY
+provider: aitta
+
+# Model name for the chosen provider. Defaults are filled in by LLMConfig.__post_init__
+# if you leave `model` unset, but pinning it here is clearer for reproducibility.
+#   aitta:     LumiOpen/Llama-Poro-2-70B-Instruct, openai/gpt-oss-120b, Qwen/Qwen3-Coder-Next, ...
+#   anthropic: claude-sonnet-4-5, claude-opus-4-7, claude-haiku-4-5, ...
+model: LumiOpen/Llama-Poro-2-70B-Instruct
+
+# Provider-specific (aitta only — ignored for anthropic).
+base_url: https://aitta-api.csc.fi/openai/v1
+
 temperature: 0.0
 max_tokens: 1024
 
-# Retry policy. Aitta returns 429 with a ~1-minute cooldown when rate-limited.
+# Retry policy. Aitta returns 429 with a ~1-minute cooldown; Anthropic honors `retry-after`.
 max_retries: 6
 backoff_initial_s: 2.0
 backoff_max_s: 90.0
 
-# Cache LLM decisions to disk so re-running the planner is free.
-decision_cache_dir: "results/llm_cache"
+# Cache LLM decisions to disk so re-running the planner / sweep is free.
+decision_cache_dir: results/llm_cache

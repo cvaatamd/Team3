@@ -99,15 +99,18 @@ MANIFEST="$manifest_path"
 CONTAINER="$container_sif"
 VENV_ACTIVATE="$venv_activate"
 
-# LLM (Aitta) plumbing — only used if ADMET_USE_LLM=1 is set.
+# LLM plumbing — only used if ADMET_USE_LLM=1 is set. Provider is decided by conf/llm.yaml,
+# so we forward both possible API keys; whichever the active provider needs is read at runtime.
 export ADMET_USE_LLM="$${ADMET_USE_LLM:-$use_llm_flag}"
-# AITTA_API_TOKEN must be inherited from the submitting environment (sbatch passes env by
-# default; if not, set --export=AITTA_API_TOKEN). Workers without it will fail loudly at the
-# first LLM call.
+# Tokens must be inherited from the submitting environment (sbatch passes env by default;
+# if not, set --export=ALL). Workers fail loudly at the first LLM call if the configured
+# provider's key isn't set.
 export AITTA_API_TOKEN="$${AITTA_API_TOKEN:-}"
-# Forward both into the singularity container.
+export ANTHROPIC_API_KEY="$${ANTHROPIC_API_KEY:-}"
+# Forward into the singularity container.
 export SINGULARITYENV_ADMET_USE_LLM="$$ADMET_USE_LLM"
 export SINGULARITYENV_AITTA_API_TOKEN="$$AITTA_API_TOKEN"
+export SINGULARITYENV_ANTHROPIC_API_KEY="$$ANTHROPIC_API_KEY"
 
 # Lumi container modules.
 module purge

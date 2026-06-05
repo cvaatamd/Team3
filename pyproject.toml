@@ -24,7 +24,10 @@ dependencies = [
 [project.optional-dependencies]
 chem = ["rdkit", "chemprop>=2.0"]
 external = ["polaris-lib", "PyTDC"]
-llm = ["openai>=1.40"]      # Aitta (CSC LUMI LLM inference) is OpenAI-compatible
+llm = [
+    "openai>=1.40",     # Aitta (CSC LUMI LLM inference) is OpenAI-compatible
+    "anthropic>=0.40",  # Anthropic API (alternative provider, for local dev)
+]
 dev = ["pytest", "ruff", "mypy"]
 
 [project.scripts]

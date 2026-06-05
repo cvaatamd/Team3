@@ -9,7 +9,7 @@ Three decisions are LLM-routed (the rest of the pipeline stays deterministic Pyt
 3. **Planner narrative** — given the aggregated results table, write the §0 characterization.
 
 By design these calls happen on the orchestrator, not the SLURM worker. The DataAgent's
-decisions get cached on disk by `AittaClient.structured(...)` so re-runs are free; the ML
+decisions get cached on disk by `LLMClient.structured(...)` so re-runs are free; the ML
 mechanism choice is similarly cached per (endpoint, arm, n) and baked into the JobSpec.
 """
 from __future__ import annotations
@@ -27,7 +27,7 @@ from data.registry import ExternalEndpointMap, ExternalSource, sources_for_targe
 
 from .contracts import Mechanism
 from .data_agent import DataAgent
-from .llm import AittaClient
+from .llm import LLMClient
 from .ml_agent import MLAgent
 from .planner import Planner
 
@@ -60,7 +60,7 @@ class ReportNarrative(BaseModel):
 # ---- DataAgent override --------------------------------------------------
 
 class LLMDataAgent(DataAgent):
-    def __init__(self, data, llm: AittaClient):
+    def __init__(self, data, llm: LLMClient):
         super().__init__(data)
         self.llm = llm
 
@@ -131,7 +131,7 @@ def _quick_calibration(target_df: pd.DataFrame, target_endpoint: str,
 # ---- MLAgent override ----------------------------------------------------
 
 class LLMMLAgent(MLAgent):
-    def __init__(self, llm: AittaClient):
+    def __init__(self, llm: LLMClient):
         self.llm = llm
 
     def choose_mechanism(self, pool, requested: Mechanism) -> Mechanism:
@@ -171,7 +171,7 @@ class LLMMLAgent(MLAgent):
 # ---- Planner narrative ---------------------------------------------------
 
 class LLMPlanner(Planner):
-    def __init__(self, *args, llm: AittaClient, **kwargs):
+    def __init__(self, *args, llm: LLMClient, **kwargs):
         super().__init__(*args, **kwargs)
         self.llm = llm
 

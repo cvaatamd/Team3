@@ -93,10 +93,19 @@ cotainr build chemprop.sif --system=lumi-g --conda-env=chemprop_env.yml
                                 --results-dir results'
    ```
 
-## LLM agents (Aitta, CSC LUMI inference)
+## LLM agents (Aitta or Anthropic)
 
-The three "agentic" decision points from Plan.md §5 can be routed to an LLM via
-[Aitta](https://aitta.csc.fi/page/docs) (OpenAI-compatible, runs on Lumi):
+The three "agentic" decision points from Plan.md §5 can be routed to an LLM. Two providers
+are wired in; pick one in [`conf/llm.yaml`](conf/llm.yaml) (`provider: aitta` or
+`provider: anthropic`):
+
+- **aitta** — [CSC LUMI inference](https://aitta.csc.fi/page/docs) (OpenAI-compatible).
+  Token from `$AITTA_API_TOKEN` (get one at <https://aitta-auth.csc.fi/myToken>).
+- **anthropic** — Anthropic API. Key from `$ANTHROPIC_API_KEY`. Useful for local dev when
+  you don't have an Aitta token, or for a higher-quality model on the planner narrative.
+
+Both providers go through the same `LLMClient` base; the `--llm` flag and disk-cache
+behavior are identical regardless of provider.
 
 | Decision | Class | Override point |
 |---|---|---|
@@ -111,10 +120,14 @@ disk** so re-runs don't burn tokens.
 
 ### Setup
 
-1. Install the extra: `pip install -e '.[llm]'`
-2. Get a token from <https://aitta-auth.csc.fi/myToken> (24h default; bind to your LUMI
-   project for 90d) and export it: `export AITTA_API_TOKEN=...`
-3. (Optional) tweak [`conf/llm.yaml`](conf/llm.yaml) — model, retries, cache dir.
+1. Install the extra: `pip install -e '.[llm]'` (pulls both `openai` and `anthropic`).
+2. Export the key for whichever provider you picked:
+   ```
+   export AITTA_API_TOKEN=...        # for provider: aitta
+   export ANTHROPIC_API_KEY=...      # for provider: anthropic
+   ```
+3. Edit [`conf/llm.yaml`](conf/llm.yaml) — set `provider:` and `model:`, and tweak retries
+   / cache dir if needed.
 
 ### Usage
 
@@ -130,9 +143,10 @@ python -m experiment.cli collect --llm
 ```
 
 When `--llm` is passed to `submit-sweep`, the worker template exports `ADMET_USE_LLM=1` and
-forwards `AITTA_API_TOKEN` into Singularity via `SINGULARITYENV_*`. The decision cache at
-`results/llm_cache/` lives on the shared Lumi filesystem, so cache hits across worker tasks
-are free even when many array jobs are running.
+forwards **both** `AITTA_API_TOKEN` and `ANTHROPIC_API_KEY` into Singularity via
+`SINGULARITYENV_*` (whichever the active provider needs is read at runtime). The decision
+cache at `results/llm_cache/` lives on the shared Lumi filesystem, so cache hits across
+worker tasks are free even when many array jobs are running.
 
 ## Development
 
