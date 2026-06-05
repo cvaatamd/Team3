@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "admet-fewshot"
+version = "0.1.0"
+description = "Multi-task few-shot transfer learning for ADMET (OpenADMET-ExpansionRx)."
+requires-python = ">=3.10"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "matplotlib",
+    "datasets",
+    "lightgbm",
+    "pydantic>=2",
+    "pyyaml",
+    "tqdm",
+    "rich",
+]
+
+[project.optional-dependencies]
+chem = ["rdkit", "chemprop>=2.0"]
+external = ["polaris-lib", "PyTDC"]
+llm = ["openai>=1.40"]      # Aitta (CSC LUMI LLM inference) is OpenAI-compatible
+dev = ["pytest", "ruff", "mypy"]
+
+[project.scripts]
+admet-submit-sweep = "experiment.cli:submit_sweep_cli"
+admet-run-job = "experiment.cli:run_job_cli"
+admet-plan = "experiment.cli:plan_cli"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

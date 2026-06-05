@@ -1,0 +1,22 @@
+# Default sweep configuration (§4). Override per-target on the command line.
+target_endpoints:
+  - "HLM CLint"
+  - "MBPB"
+
+arms:
+  - "baseline"      # single-task, n target samples only
+  - "intra_task"    # MT trunk on n + all available ExpansionRx source endpoints
+  - "external"      # n + harmonized external source for target
+  - "both"          # full stack
+
+n_grid: [25, 50, 100, 250, 500, null]   # null = full
+seeds: [0, 1, 2, 3, 4]
+
+# Which mechanism is allowed per arm. ML agent may further refine.
+mechanism_by_arm:
+  baseline: "gbm_baseline"
+  intra_task: "mt_cotrain"
+  external: "mt_cotrain"
+  both: "mt_cotrain"
+
+exclude_flagged_slices: true

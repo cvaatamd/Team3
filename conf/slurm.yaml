@@ -1,0 +1,28 @@
+# Defaults for the SLURM dispatcher. Match Lumi (LUMI-G) per Readme.md.
+account: "project_XXXX"
+partition: "small-g"
+time: "12:00:00"
+nodes: 1
+ntasks: 1
+cpus_per_task: 8
+gpus_per_node: 1
+mem: "32G"
+
+# Container + venv (matches Readme.md "Pytorch container" recipe).
+container_sif: "/appl/local/laifs/containers/lumi-multitorch-latest.sif"
+venv_activate: "chemprop/bin/activate"
+singularity_modules:
+  - "lumi-aif-singularity-bindings"
+module_use:
+  - "/appl/local/laifs/modules"
+
+# Optional binds for /projappl, /scratch, etc. — set to project paths.
+binds: []
+
+# Working directory on the cluster. Code is checked out here.
+work_dir: "${HOME}/admet-fewshot"
+results_dir: "${HOME}/admet-fewshot/results"
+logs_dir: "${HOME}/admet-fewshot/results/logs"
+
+# Array-job batching. One sbatch with --array=0-N spawns N+1 tasks; concurrency is the cap.
+array_concurrency: 16
