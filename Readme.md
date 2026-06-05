@@ -1,8 +1,9 @@
 
 # Team 3
 
+## Pytorch container
 
-## Adding chemprop to the Pytorch container 
+### Adding chemprop to the Pytorch container 
 
 ```
 module purge
@@ -15,14 +16,14 @@ Singularity> source chemprop/bin/activate
 (chemprop) Singularity> pip install chemprop
 ```
 
-## Using chemprop with the Pytorch container
+### Using chemprop with the Pytorch container
 
 ```
 export SIF=/appl/local/laifs/containers/lumi-multitorch-latest.sif
 run $SIF bash -c 'source chemprop/bin/activate && python -c "import chemprop; print(chemprop.__version__)"'
 ```
 
-##
+## ChemProp container
 
 1. Prepare ChemProp container in Lumi
 ```shell
