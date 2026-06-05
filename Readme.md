@@ -59,8 +59,8 @@ module use /appl/local/laifs/modules
 module load lumi-aif-singularity-bindings
 export SIF=/appl/local/laifs/containers/lumi-multitorch-latest.sif
 singularity shell $SIF
-Singularity> python -m venv chemprop --system-site-packages
-Singularity> source chemprop/bin/activate
+#python -m venv chemprop --system-site-packages
+source chemprop/bin/activate
 (chemprop) Singularity> pip install chemprop
 ```
 
