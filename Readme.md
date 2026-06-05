@@ -3,6 +3,10 @@
 
 ## Pytorch container
 
+This will add chemprop to a venv that will be located on disk in the working directory, not the Pytorch container itself.
+
+Based on https://docs.lumi-supercomputer.eu/laif/software/ai-environment/#add-more-pip-packages-to-container . 
+
 ### Adding chemprop to the Pytorch container 
 
 ```
