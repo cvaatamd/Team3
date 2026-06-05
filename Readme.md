@@ -10,8 +10,8 @@ cotainr build chemprop.sif --system=lumi-g --conda-env=chemprop_env.yml
 ```shell
 
 #!/bin/bash
-#SBATCH --job-name=PMX_workflow_test
-#SBATCH --account=project_462000643
+#SBATCH --job-name=Chem prop
+#SBATCH --account=project_XXXX
 #SBATCH --time=3-00:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
