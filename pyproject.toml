@@ -19,6 +19,7 @@ dependencies = [
     "pyyaml",
     "tqdm",
     "rich",
+    "tabulate",     # pandas.DataFrame.to_markdown() backend, used by Planner._write_report
 ]
 
 [project.optional-dependencies]

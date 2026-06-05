@@ -3,13 +3,13 @@
 # Switch between providers by editing `provider` below. Tokens come from env:
 #   aitta     -> $AITTA_API_TOKEN  (https://aitta-auth.csc.fi/myToken)
 #   anthropic -> $ANTHROPIC_API_KEY
-provider: aitta
+provider: anthropic
 
 # Model name for the chosen provider. Defaults are filled in by LLMConfig.__post_init__
 # if you leave `model` unset, but pinning it here is clearer for reproducibility.
 #   aitta:     LumiOpen/Llama-Poro-2-70B-Instruct, openai/gpt-oss-120b, Qwen/Qwen3-Coder-Next, ...
 #   anthropic: claude-sonnet-4-5, claude-opus-4-7, claude-haiku-4-5, ...
-model: LumiOpen/Llama-Poro-2-70B-Instruct
+model: claude-sonnet-4-5
 
 # Provider-specific (aitta only — ignored for anthropic).
 base_url: https://aitta-api.csc.fi/openai/v1

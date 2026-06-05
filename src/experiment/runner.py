@@ -162,8 +162,10 @@ def collect_results(results_dir: Path) -> pd.DataFrame:
         row.update(em)
         rows.append(row)
     df = pd.DataFrame(rows)
-    if not df.empty:
-        df = df.rename(columns={"target_endpoint": "endpoint"})
+    if not df.empty and "target_endpoint" in df.columns:
+        # Keep both names: plot_curves uses `endpoint`, Planner._write_report uses
+        # `target_endpoint`. Duplicating is cheaper than threading a rename through both.
+        df["endpoint"] = df["target_endpoint"]
     return df
 
 

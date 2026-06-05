@@ -45,7 +45,9 @@ class Planner:
         results = dispatch_fn(jobs)
         results_df = pd.DataFrame([r.model_dump() for r in results])
         if not results_df.empty:
-            # unpack extra_metrics
+            # plot_curves uses `endpoint`; _write_report uses `target_endpoint`.
+            # Carry both — see runner.collect_results for the matching shape.
+            results_df["endpoint"] = results_df["target_endpoint"]
             for col in ["mae", "rmse", "r2", "spearman", "n_test", "elapsed_s"]:
                 results_df[col] = results_df["extra_metrics"].map(lambda d: d.get(col))
         results_path = self.results_dir / "results.parquet"
