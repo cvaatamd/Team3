@@ -1,0 +1,5 @@
+hlm sweep=19073763 collect=19073764 jobs=120 dir=results-fullexp/hlm
+mbpb sweep=19073778 collect=19073779 jobs=120 dir=results-fullexp/mbpb
+ksol sweep=19073780 collect=19073781 jobs=120 dir=results-fullexp/ksol
+mppb sweep=19073782 collect=19073783 jobs=120 dir=results-fullexp/mppb
+caco2eff sweep=19073786 collect=19073787 jobs=120 dir=results-fullexp/caco2eff

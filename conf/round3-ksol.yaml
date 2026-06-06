@@ -1,0 +1,22 @@
+# Round 3 — KSOL: external source needs harmonization (Biogen solubility,
+# log10 ug/mL -> uM via molecular weight), a protocol-caveat match.
+# Medium scope: all 4 arms, n in {25,50,100,250}, 5 seeds = 80 jobs.
+target_endpoints:
+  - "KSOL"
+
+arms:
+  - "baseline"
+  - "intra_task"
+  - "external"
+  - "both"
+
+n_grid: [25, 50, 100, 250]
+seeds: [0, 1, 2, 3, 4]
+
+mechanism_by_arm:
+  baseline: "gbm_baseline"
+  intra_task: "mt_cotrain"
+  external: "mt_cotrain"
+  both: "mt_cotrain"
+
+exclude_flagged_slices: true

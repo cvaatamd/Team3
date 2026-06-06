@@ -1,0 +1,36 @@
+{
+  "target_endpoint": "MPPB",
+  "arm": "both",
+  "n": 25,
+  "seed": 4,
+  "mechanism": "frozen_embed",
+  "rae": 0.21541582971468495,
+  "extra_metrics": {
+    "mae": 14.023570514425993,
+    "rmse": 18.77631429880352,
+    "r2": -0.7637733414674528,
+    "spearman": 0.023921628450343242,
+    "n_test": 454.0,
+    "elapsed_s": 14.567267894744873
+  },
+  "model_manifest": {
+    "mechanism": "frozen_embed"
+  },
+  "provenance": {
+    "target_endpoint": "MPPB",
+    "n_request": 25,
+    "n_unlabeled_dropped": 5,
+    "seed": 4,
+    "exclude_flagged_slices": true,
+    "n_flagged_dropped": 0,
+    "include_intra_task": true,
+    "include_external": true,
+    "n_rows_total": 5515,
+    "git_sha": "44a8d75a1872c9fa02fa11ef00a81ac140adc936",
+    "host": "nid005054",
+    "slurm_job_id": "19074328",
+    "slurm_array_task_id": "22",
+    "elapsed_s": 42.91046214103699,
+    "manifest_hash": "41300e862b9c"
+  }
+}

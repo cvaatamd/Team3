@@ -1,0 +1,32 @@
+# SLURM config for the multi-round experiment (3 endpoint rounds at once).
+# Same as conf/slurm.yaml but with the array sized so THREE arrays + their collect
+# jobs stay under LUMI small-g's ~200 AssocMaxSubmitJobLimit:
+#   3 rounds x 40 array tasks = 120, + 3 collect = 123 submitted jobs.
+# Each array task strides the 80-job manifest (ceil(80/40)=2 jobs/task).
+account: "project_462001520"
+partition: "small-g"
+time: "3:00:00"
+nodes: 1
+ntasks: 1
+cpus_per_task: 7
+gpus_per_node: 1
+mem: "60G"
+
+container_sif: "/appl/local/laifs/containers/lumi-multitorch-latest.sif"
+venv_activate: "/scratch/project_462001520/Team3/ChemProp/chemprop/bin/activate"
+singularity_modules:
+  - "lumi-aif-singularity-bindings"
+module_use:
+  - "/appl/local/laifs/modules"
+
+binds:
+  - "/scratch/project_462001520:/scratch/project_462001520"
+  - "/pfs/lustrep1:/pfs/lustrep1"
+
+work_dir: "/pfs/lustrep1/scratch/project_462001520/Team3/Team3"
+results_dir: "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/results"
+logs_dir: "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/logs"
+
+# Keep concurrency modest so three arrays share the partition politely (<= 48 running).
+array_concurrency: 16
+max_array_tasks: 40

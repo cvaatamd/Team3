@@ -1,0 +1,36 @@
+{
+  "target_endpoint": "HLM CLint",
+  "arm": "external",
+  "n": null,
+  "seed": 3,
+  "mechanism": "mt_cotrain",
+  "rae": 0.09812747545442133,
+  "extra_metrics": {
+    "mae": 26.64160958587539,
+    "rmse": 45.31517785288638,
+    "r2": -0.09342883244286537,
+    "spearman": 0.41136912798275843,
+    "n_test": 782.0,
+    "elapsed_s": 344.9286069869995
+  },
+  "model_manifest": {
+    "mechanism": "mt_cotrain"
+  },
+  "provenance": {
+    "target_endpoint": "HLM CLint",
+    "n_request": null,
+    "n_unlabeled_dropped": 1567,
+    "seed": 3,
+    "exclude_flagged_slices": true,
+    "n_flagged_dropped": 0,
+    "include_intra_task": false,
+    "include_external": true,
+    "n_rows_total": 6845,
+    "git_sha": "44a8d75a1872c9fa02fa11ef00a81ac140adc936",
+    "host": "nid007938",
+    "slurm_job_id": "19073945",
+    "slurm_array_task_id": "16",
+    "elapsed_s": 359.45116662979126,
+    "manifest_hash": "86ac0f8b470e"
+  }
+}

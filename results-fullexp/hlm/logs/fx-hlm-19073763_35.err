@@ -1,0 +1,103 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) ModuleLabel/label   2) lumi-tools/26.05   3) init-lumi/0.2
+
+The following sticky modules could not be reloaded:
+
+  1) lumi-tools
+2026-06-06 03:10:09,690 INFO experiment.runner | [HLM_CLint__intra_task__50__s0] starting on host=nid005041 pid=17243
+2026-06-06 03:10:12,890 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+2026-06-06 03:10:13,338 INFO agents.llm | LLM cache hit choose_mechanism::HLM CLint::mt_cotrain::50.json
+2026-06-06 03:10:13,347 INFO agents.llm_overrides | LLM picked mechanism=mt_cotrain for HLM CLint (n_target=50, requested=mt_cotrain): The target endpoint has 50 labels, which is moderate, and auxiliary tasks have ample label counts. This fits the default scenario for multi-task co-training.
+INFO: [rank: 0] Seed set to 0
+2026-06-06 03:10:25,042 INFO lightning.fabric.utilities.seed | [rank: 0] Seed set to 0
+INFO: GPU available: True (cuda), used: True
+2026-06-06 03:10:25,158 INFO lightning.pytorch.utilities.rank_zero | GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+2026-06-06 03:10:25,158 INFO lightning.pytorch.utilities.rank_zero | TPU available: False, using: 0 TPU cores
+INFO: 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+2026-06-06 03:10:25,158 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+INFO: You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+2026-06-06 03:10:25,264 INFO lightning.pytorch.utilities.rank_zero | You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-06 03:10:25,264 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO: Loading `train_dataloader` to estimate number of stepping batches.
+2026-06-06 03:10:25,772 INFO lightning.pytorch.utilities.rank_zero | Loading `train_dataloader` to estimate number of stepping batches.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+INFO: `Trainer.fit` stopped: `max_epochs=80` reached.
+2026-06-06 03:15:05,482 INFO lightning.pytorch.utilities.rank_zero | `Trainer.fit` stopped: `max_epochs=80` reached.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-06 03:15:05,508 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'predict_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+2026-06-06 03:15:07,164 INFO experiment.runner | [HLM_CLint__intra_task__50__s0] done in 297.5s, RAE=0.1222
+2026-06-06 03:15:09,757 INFO experiment.runner | [HLM_CLint__external__100__s1] starting on host=nid005041 pid=17424
+2026-06-06 03:15:12,656 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+2026-06-06 03:15:16,958 INFO agents.llm | LLM cache hit select_sources::HLM CLint.json
+2026-06-06 03:15:16,958 INFO agents.llm_overrides | LLM kept 1/1 sources for HLM CLint: ['biogen/adme-fang-v1']
+2026-06-06 03:15:25,289 INFO data.harmonize | source=biogen/adme-fang-v1
+match_quality=near-identical
+calibration: n_overlap=0, slope=None, intercept=None, r2=None, aligned=False
+merge_strategy=aux_head
+map_notes=same assay, same units, source is already log10
+2026-06-06 03:15:25,297 INFO agents.llm | LLM cache hit choose_mechanism::HLM CLint::mt_cotrain::100.json
+2026-06-06 03:15:25,308 INFO agents.llm_overrides | LLM picked mechanism=mt_cotrain for HLM CLint (n_target=100, requested=mt_cotrain): The request is for mt_cotrain and the target task has 100 labels, which is beyond the very small regime (<20-30) where frozen_embed would be preferred. There are multiple auxiliary tasks with substantial label counts (ranging from ~200 to >5000), making multi‑task co‑training the appropriate default choice.
+INFO: [rank: 0] Seed set to 1
+2026-06-06 03:15:31,536 INFO lightning.fabric.utilities.seed | [rank: 0] Seed set to 1
+INFO: GPU available: True (cuda), used: True
+2026-06-06 03:15:31,648 INFO lightning.pytorch.utilities.rank_zero | GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+2026-06-06 03:15:31,648 INFO lightning.pytorch.utilities.rank_zero | TPU available: False, using: 0 TPU cores
+INFO: 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+2026-06-06 03:15:31,648 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+INFO: You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+2026-06-06 03:15:31,743 INFO lightning.pytorch.utilities.rank_zero | You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-06 03:15:31,744 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO: Loading `train_dataloader` to estimate number of stepping batches.
+2026-06-06 03:15:31,904 INFO lightning.pytorch.utilities.rank_zero | Loading `train_dataloader` to estimate number of stepping batches.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+INFO: `Trainer.fit` stopped: `max_epochs=80` reached.
+2026-06-06 03:18:31,836 INFO lightning.pytorch.utilities.rank_zero | `Trainer.fit` stopped: `max_epochs=80` reached.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-06 03:18:31,859 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'predict_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+2026-06-06 03:18:33,475 INFO experiment.runner | [HLM_CLint__external__100__s1] done in 203.7s, RAE=0.1084
+2026-06-06 03:18:35,950 INFO experiment.runner | [HLM_CLint__both__250__s2] starting on host=nid005041 pid=17921
+2026-06-06 03:18:38,876 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+2026-06-06 03:18:43,078 INFO agents.llm | LLM cache hit select_sources::HLM CLint.json
+2026-06-06 03:18:43,079 INFO agents.llm_overrides | LLM kept 1/1 sources for HLM CLint: ['biogen/adme-fang-v1']
+2026-06-06 03:18:51,399 INFO data.harmonize | source=biogen/adme-fang-v1
+match_quality=near-identical
+calibration: n_overlap=0, slope=None, intercept=None, r2=None, aligned=False
+merge_strategy=aux_head
+map_notes=same assay, same units, source is already log10
+2026-06-06 03:18:51,412 INFO agents.llm | LLM cache hit choose_mechanism::HLM CLint::mt_cotrain::250.json
+2026-06-06 03:18:51,427 INFO agents.llm_overrides | LLM picked mechanism=mt_cotrain for HLM CLint (n_target=250, requested=mt_cotrain): The request is for mt_cotrain and the target task has a moderate number of labels (250). Auxiliary tasks have ample label counts, making multi-task co‑training appropriate. No pool shape conflict exists, so the requested mechanism is retained.
+INFO: [rank: 0] Seed set to 2
+2026-06-06 03:18:58,370 INFO lightning.fabric.utilities.seed | [rank: 0] Seed set to 2
+INFO: GPU available: True (cuda), used: True
+2026-06-06 03:18:58,482 INFO lightning.pytorch.utilities.rank_zero | GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+2026-06-06 03:18:58,483 INFO lightning.pytorch.utilities.rank_zero | TPU available: False, using: 0 TPU cores
+INFO: 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+2026-06-06 03:18:58,483 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+INFO: You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+2026-06-06 03:18:58,578 INFO lightning.pytorch.utilities.rank_zero | You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-06 03:18:58,578 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO: Loading `train_dataloader` to estimate number of stepping batches.
+2026-06-06 03:18:58,739 INFO lightning.pytorch.utilities.rank_zero | Loading `train_dataloader` to estimate number of stepping batches.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+INFO: `Trainer.fit` stopped: `max_epochs=80` reached.
+2026-06-06 03:25:59,483 INFO lightning.pytorch.utilities.rank_zero | `Trainer.fit` stopped: `max_epochs=80` reached.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-06 03:25:59,506 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'predict_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+2026-06-06 03:26:01,196 INFO experiment.runner | [HLM_CLint__both__250__s2] done in 445.2s, RAE=0.1116

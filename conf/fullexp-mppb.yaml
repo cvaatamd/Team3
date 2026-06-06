@@ -1,0 +1,12 @@
+# Full experiment round — MPPB (n=1302; human-PPB species-transfer external).
+target_endpoints:
+  - "MPPB"
+arms: ["baseline", "intra_task", "external", "both"]
+n_grid: [25, 50, 100, 250, 500, null]   # null = full
+seeds: [0, 1, 2, 3, 4]
+mechanism_by_arm:
+  baseline: "gbm_baseline"
+  intra_task: "mt_cotrain"
+  external: "mt_cotrain"
+  both: "mt_cotrain"
+exclude_flagged_slices: true

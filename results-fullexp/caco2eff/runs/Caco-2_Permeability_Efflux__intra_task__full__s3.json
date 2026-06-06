@@ -1,0 +1,36 @@
+{
+  "target_endpoint": "Caco-2 Permeability Efflux",
+  "arm": "intra_task",
+  "n": null,
+  "seed": 3,
+  "mechanism": "mt_cotrain",
+  "rae": 0.028797642866609248,
+  "extra_metrics": {
+    "mae": 17.474985644315822,
+    "rmse": 43.26299735182137,
+    "r2": -0.1305368469883812,
+    "spearman": 0.5388659712912061,
+    "n_test": 1616.0,
+    "elapsed_s": 299.4456796646118
+  },
+  "model_manifest": {
+    "mechanism": "mt_cotrain"
+  },
+  "provenance": {
+    "target_endpoint": "Caco-2 Permeability Efflux",
+    "n_request": null,
+    "n_unlabeled_dropped": 0,
+    "seed": 3,
+    "exclude_flagged_slices": true,
+    "n_flagged_dropped": 0,
+    "include_intra_task": true,
+    "include_external": false,
+    "n_rows_total": 5326,
+    "git_sha": "44a8d75a1872c9fa02fa11ef00a81ac140adc936",
+    "host": "nid007860",
+    "slurm_job_id": "19074432",
+    "slurm_array_task_id": "22",
+    "elapsed_s": 302.66304111480713,
+    "manifest_hash": "579131f2593c"
+  }
+}

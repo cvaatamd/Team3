@@ -1,0 +1,33 @@
+# SLURM config for the FULL 5-round experiment (results-fullexp/).
+# Five endpoint arrays submitted at once; sized to stay under LUMI small-g's ~200
+# AssocMaxSubmitJobLimit:
+#   5 rounds x 36 array tasks = 180, + 5 collect = 185 submitted jobs.
+# Each round has 120 jobs (4 arms x 6 n x 5 seeds); each array task strides the
+# manifest (ceil(120/36)=4 jobs/task). With array_concurrency=100 the per-array
+# cap is the task count (36), so up to ~180 jobs run concurrently across the 5 arrays.
+account: "project_462001520"
+partition: "small-g"
+time: "6:00:00"
+nodes: 1
+ntasks: 1
+cpus_per_task: 7
+gpus_per_node: 1
+mem: "60G"
+
+container_sif: "/appl/local/laifs/containers/lumi-multitorch-latest.sif"
+venv_activate: "/scratch/project_462001520/Team3/ChemProp/chemprop/bin/activate"
+singularity_modules:
+  - "lumi-aif-singularity-bindings"
+module_use:
+  - "/appl/local/laifs/modules"
+
+binds:
+  - "/scratch/project_462001520:/scratch/project_462001520"
+  - "/pfs/lustrep1:/pfs/lustrep1"
+
+work_dir: "/pfs/lustrep1/scratch/project_462001520/Team3/Team3"
+results_dir: "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/results-fullexp"
+logs_dir: "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/results-fullexp/logs"
+
+array_concurrency: 100
+max_array_tasks: 36

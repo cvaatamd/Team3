@@ -1,0 +1,22 @@
+[slurm] host=nid007940 job=19074224 task=28
+[worker] array task 28 handles manifest indices: 28 64 100
+[worker] === manifest index 28 ===
+[worker] === manifest index 64 ===
+[worker] === manifest index 100 ===
+┏━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name            ┃ Type               ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ message_passing │ BondMessagePassing │  227 K │ train │     0 │
+│ 1 │ agg             │ MeanAggregation    │      0 │ train │     0 │
+│ 2 │ bn              │ BatchNorm1d        │    600 │ train │     0 │
+│ 3 │ predictor       │ RegressionFFN      │  183 K │ train │     0 │
+│ 4 │ X_d_transform   │ Identity           │      0 │ train │     0 │
+│ 5 │ metrics         │ ModuleList         │      0 │ train │     0 │
+└───┴─────────────────┴────────────────────┴────────┴───────┴───────┘
+Trainable params: 411 K                                                         
+Non-trainable params: 0                                                         
+Total params: 411 K                                                             
+Total estimated model params size (MB): 1                                       
+Modules in train mode: 26                                                       
+Modules in eval mode: 0                                                         
+Total FLOPs: 0                                                                  

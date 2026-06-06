@@ -1,0 +1,18 @@
+# Reduced sweep matching the prior results-mini run (8 jobs).
+target_endpoints:
+  - "HLM CLint"
+
+arms:
+  - "baseline"
+  - "intra_task"
+
+n_grid: [50, 250]
+seeds: [0, 1]
+
+mechanism_by_arm:
+  baseline: "gbm_baseline"
+  intra_task: "mt_cotrain"
+  external: "mt_cotrain"
+  both: "mt_cotrain"
+
+exclude_flagged_slices: true

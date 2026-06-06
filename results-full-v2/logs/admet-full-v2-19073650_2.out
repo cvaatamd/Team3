@@ -1,0 +1,5 @@
+[slurm] host=nid005039 job=19073654 task=2
+[worker] array task 2 handles manifest indices: 2 152 302
+[worker] === manifest index 2 ===
+[worker] === manifest index 152 ===
+[worker] === manifest index 302 ===

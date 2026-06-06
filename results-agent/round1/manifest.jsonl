@@ -1,0 +1,8 @@
+{"job_id":"HLM_CLint__baseline__50__s0","target_endpoint":"HLM CLint","arm":"baseline","n":50,"seed":0,"mechanism":"gbm_baseline","exclude_flagged_slices":true,"rae_definition":"range_normalized"}
+{"job_id":"HLM_CLint__baseline__50__s1","target_endpoint":"HLM CLint","arm":"baseline","n":50,"seed":1,"mechanism":"gbm_baseline","exclude_flagged_slices":true,"rae_definition":"range_normalized"}
+{"job_id":"HLM_CLint__baseline__250__s0","target_endpoint":"HLM CLint","arm":"baseline","n":250,"seed":0,"mechanism":"gbm_baseline","exclude_flagged_slices":true,"rae_definition":"range_normalized"}
+{"job_id":"HLM_CLint__baseline__250__s1","target_endpoint":"HLM CLint","arm":"baseline","n":250,"seed":1,"mechanism":"gbm_baseline","exclude_flagged_slices":true,"rae_definition":"range_normalized"}
+{"job_id":"HLM_CLint__intra_task__50__s0","target_endpoint":"HLM CLint","arm":"intra_task","n":50,"seed":0,"mechanism":"mt_cotrain","exclude_flagged_slices":true,"rae_definition":"range_normalized"}
+{"job_id":"HLM_CLint__intra_task__50__s1","target_endpoint":"HLM CLint","arm":"intra_task","n":50,"seed":1,"mechanism":"mt_cotrain","exclude_flagged_slices":true,"rae_definition":"range_normalized"}
+{"job_id":"HLM_CLint__intra_task__250__s0","target_endpoint":"HLM CLint","arm":"intra_task","n":250,"seed":0,"mechanism":"mt_cotrain","exclude_flagged_slices":true,"rae_definition":"range_normalized"}
+{"job_id":"HLM_CLint__intra_task__250__s1","target_endpoint":"HLM CLint","arm":"intra_task","n":250,"seed":1,"mechanism":"mt_cotrain","exclude_flagged_slices":true,"rae_definition":"range_normalized"}
