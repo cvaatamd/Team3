@@ -4,3 +4,4 @@ __pycache__/
 results/
 *.egg-info/
 .venv/
+conf/.aitta_token

@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 
 from data.expansionrx import ExpansionRxData
-from eval.curves import plot_curves, plot_ma_rae
+from eval.curves import normalize_endpoint_column, plot_curves, plot_ma_rae
 from .contracts import Arm, EvalResult, ExperimentPlan, JobSpec, PoolRequest
 from .data_agent import DataAgent
 from .ml_agent import MLAgent, TrainSpec
@@ -63,7 +63,9 @@ class Planner:
         log.info("planner: wrote results -> %s and report -> %s", results_path, report_path)
         return report_path
 
-    def _write_report(self, df: pd.DataFrame) -> str:
+    def _write_report(self, df: pd.DataFrame, metric: str = "rae") -> str:
+        from eval.curves import LOWER_IS_BETTER, metric_label
+        lower_better = metric in LOWER_IS_BETTER
         lines = [
             "# Multi-task few-shot ADMET — characterization",
             "",
@@ -72,25 +74,27 @@ class Planner:
             f"- n grid: {self.plan.n_grid}",
             f"- seeds: {self.plan.seeds}",
             f"- jobs run: {len(df)}",
+            f"- metric: {metric_label(metric)}",
             "",
         ]
         if df.empty:
             lines.append("_no results_")
             return "\n".join(lines)
 
+        df = normalize_endpoint_column(df)
         lines.append("## Best arm per (endpoint, n)\n")
         agg = (
-            df.groupby(["target_endpoint", "arm", "n"], dropna=False)["rae"]
+            df.groupby(["endpoint", "arm", "n"], dropna=False)[metric]
             .agg(["mean", "std"]).reset_index()
         )
-        for ep, sub in agg.groupby("target_endpoint"):
+        for ep, sub in agg.groupby("endpoint"):
             lines.append(f"### {ep}\n")
             piv = sub.pivot_table(index="n", columns="arm", values="mean")
             lines.append(piv.round(4).to_markdown())
             lines.append("")
 
         lines.append("\n## Interpretation\n")
-        for ep, sub in agg.groupby("target_endpoint"):
+        for ep, sub in agg.groupby("endpoint"):
             base = sub[sub["arm"] == "baseline"].set_index("n")["mean"]
             for arm in self.plan.arms:
                 if arm == "baseline":
@@ -98,13 +102,14 @@ class Planner:
                 trial = sub[sub["arm"] == arm].set_index("n")["mean"]
                 if trial.empty or base.empty:
                     continue
-                deltas = (base - trial).dropna()
+                # "lift" is improvement of arm over baseline, sign-corrected per metric direction.
+                deltas = ((base - trial) if lower_better else (trial - base)).dropna()
                 if deltas.empty:
                     continue
                 best_n = deltas.idxmax()
                 lift = deltas.loc[best_n]
                 lines.append(
-                    f"- **{ep} / {arm}**: largest lift {lift:.4f} RAE at n={best_n} "
+                    f"- **{ep} / {arm}**: largest lift {lift:.4f} {metric.upper()} at n={best_n} "
                     f"(baseline={base.loc[best_n]:.4f}, {arm}={trial.loc[best_n]:.4f})."
                 )
         return "\n".join(lines)

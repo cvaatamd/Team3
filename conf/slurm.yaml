@@ -1,28 +1,35 @@
 # Defaults for the SLURM dispatcher. Match Lumi (LUMI-G) per Readme.md.
-account: "project_XXXX"
-partition: "small-g"
-time: "12:00:00"
+account: "project_462001520"
+partition: "small-g"   # dev-g has tight AssocMaxSubmitJobLimit; override with PARTITION=dev-g
+time: "3:00:00"
 nodes: 1
 ntasks: 1
-cpus_per_task: 8
+cpus_per_task: 7
 gpus_per_node: 1
-mem: "32G"
+mem: "60G"
 
 # Container + venv (matches Readme.md "Pytorch container" recipe).
 container_sif: "/appl/local/laifs/containers/lumi-multitorch-latest.sif"
-venv_activate: "chemprop/bin/activate"
+venv_activate: "/scratch/project_462001520/Team3/ChemProp/chemprop/bin/activate"
 singularity_modules:
   - "lumi-aif-singularity-bindings"
 module_use:
   - "/appl/local/laifs/modules"
 
 # Optional binds for /projappl, /scratch, etc. — set to project paths.
-binds: []
+binds:
+  - "/scratch/project_462001520:/scratch/project_462001520"
+  - "/pfs/lustrep1:/pfs/lustrep1"
 
 # Working directory on the cluster. Code is checked out here.
-work_dir: "${HOME}/admet-fewshot"
-results_dir: "${HOME}/admet-fewshot/results"
-logs_dir: "${HOME}/admet-fewshot/results/logs"
+work_dir: "/pfs/lustrep1/scratch/project_462001520/Team3/Team3"
+results_dir: "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/results"
+logs_dir: "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/logs"
 
 # Array-job batching. One sbatch with --array=0-N spawns N+1 tasks; concurrency is the cap.
-array_concurrency: 16
+array_concurrency: 64
+
+# LUMI small-g rejects submissions above ~200 jobs (AssocMaxSubmitJobLimit).
+# When the sweep has more jobs than this, the SLURM array is capped at
+# max_array_tasks and each task processes a strided slice of the manifest.
+max_array_tasks: 150

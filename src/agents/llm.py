@@ -81,7 +81,8 @@ class AittaClient:
                 "openai SDK not installed — add the `llm` extra: pip install -e '.[llm]'"
             ) from e
         self.cfg = cfg or AittaConfig()
-        self.client = OpenAI(base_url=self.cfg.base_url, api_key=token or _load_token())
+        self._token = token or _load_token()
+        self.client = OpenAI(base_url=self.cfg.base_url, api_key=self._token)
         self.cache_dir = Path(self.cfg.decision_cache_dir) if self.cfg.decision_cache_dir else None
         if self.cache_dir is not None:
             self.cache_dir.mkdir(parents=True, exist_ok=True)
@@ -114,6 +115,89 @@ class AittaClient:
         raise RuntimeError(f"Aitta call failed after {self.cfg.max_retries + 1} attempts") \
             from last_err
 
+    # ---- Aitta service introspection (non-OpenAI endpoints) ----
+    #
+    # The OpenAI-compatible client only speaks .../openai/v1. Aitta also exposes service
+    # endpoints under the host root (/status, /model, /worker/<vendor~name>) documented in the
+    # Aitta user guide. We hit them directly with httpx (bundled with the openai SDK) so a
+    # standalone agent can check availability before burning a sweep on an offline model.
+
+    @property
+    def _api_root(self) -> str:
+        # base_url looks like "https://aitta-api.csc.fi/openai/v1"; strip to the host root.
+        return self.cfg.base_url.split("/openai/", 1)[0].rstrip("/")
+
+    def _service_get(self, path: str, *, timeout: float = 30.0) -> dict:
+        import httpx
+        url = f"{self._api_root}{path}"
+        headers = {"Authorization": f"Bearer {self._token}"}
+        with httpx.Client(timeout=timeout) as c:
+            r = c.get(url, headers=headers)
+            r.raise_for_status()
+            return r.json()
+
+    def service_status(self) -> dict:
+        """GET /status — normalizes to a dict.
+
+        Aitta returns the bare string "OK" when healthy, or a JSON object describing a
+        maintenance window (begin/end/reason). We always return a dict: {"status": "OK"} or
+        the window object, or {"error": ...} if unreachable.
+        """
+        try:
+            raw = self._service_get("/status")
+        except Exception as e:  # non-fatal: status is advisory
+            return {"error": str(e)}
+        if isinstance(raw, str):
+            return {"status": raw}
+        if isinstance(raw, dict):
+            return raw
+        return {"status": str(raw)}
+
+    def online_workers(self, model: str | None = None) -> list[str]:
+        """Names of currently-running workers (optionally for one model). Empty => offline."""
+        path = "/worker" if model is None else f"/worker/{model.replace('/', '~')}"
+        try:
+            data = self._service_get(path)
+        except Exception:
+            return []
+        items = data.get("_links", {}).get("item", [])
+        if isinstance(items, dict):
+            items = [items]
+        return [it.get("name", "") for it in items if isinstance(it, dict)]
+
+    def is_model_online(self, model: str | None = None) -> bool:
+        model = model or self.cfg.model
+        return any(model in w for w in self.online_workers(model))
+
+    def ensure_online(self, model: str | None = None, *, timeout_s: float = 900.0,
+                      poll_s: float = 20.0) -> bool:
+        """Make sure a worker is serving `model`, triggering allocation if needed.
+
+        Aitta starts models on demand: the first inference request causes it to allocate a
+        LUMI node and load the model (can take minutes). We send a tiny warm-up request to kick
+        that off, then poll the worker endpoint until a worker appears or we time out.
+        """
+        model = model or self.cfg.model
+        if self.is_model_online(model):
+            log.info("Aitta model %s is online", model)
+            return True
+        log.info("Aitta model %s offline — sending warm-up request to trigger allocation "
+                 "(this can take several minutes)", model)
+        try:
+            self.chat([{"role": "user", "content": "ping"}], model=model, max_tokens=1)
+            log.info("Aitta model %s responded; online", model)
+            return True
+        except Exception as e:
+            log.warning("warm-up request did not complete (%s); polling worker endpoint", e)
+        deadline = time.time() + timeout_s
+        while time.time() < deadline:
+            if self.is_model_online(model):
+                log.info("Aitta model %s is now online", model)
+                return True
+            time.sleep(poll_s)
+        log.warning("Aitta model %s did not come online within %.0fs", model, timeout_s)
+        return False
+
     # ---- Structured ----
 
     def structured(
@@ -143,6 +227,11 @@ class AittaClient:
         for attempt in range(self.cfg.max_retries + 1):
             raw = self.chat(messages)
             try:
+                if not raw.strip():
+                    # Some Aitta models intermittently return an empty assistant message on a
+                    # 200; surface it as a parse failure so the retry loop re-prompts instead of
+                    # dying with a cryptic "no '{'".
+                    raise json.JSONDecodeError("empty model response", raw, 0)
                 obj = schema.model_validate_json(_extract_json(raw))
                 if cache_path is not None:
                     cache_path.write_text(obj.model_dump_json(indent=2))
@@ -155,8 +244,9 @@ class AittaClient:
                 messages.append({
                     "role": "user",
                     "content": (f"The previous response failed validation: {e}. "
-                                "Re-emit a single JSON object matching the schema, "
-                                "with no other text."),
+                                "Respond with ONLY a single JSON object that starts with '{' "
+                                "and matches the schema. No prose, no markdown fences, no "
+                                "leading or trailing text."),
                 })
         raise RuntimeError("LLM structured call could not produce schema-valid JSON") \
             from last_err

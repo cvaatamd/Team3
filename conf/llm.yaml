@@ -1,9 +1,11 @@
 # Aitta (CSC LUMI LLM inference) defaults.
 # Token is loaded from $AITTA_API_TOKEN at runtime (file path also accepted via $AITTA_API_TOKEN_FILE).
 base_url: "https://aitta-api.csc.fi/openai/v1"
-model: "LumiOpen/Llama-Poro-2-70B-Instruct"   # change to gpt-oss-120b, Qwen3-Coder-Next, etc.
+model: "openai/gpt-oss-120b"   # change to gpt-oss-120b, Qwen3-Coder-Next, etc.
 temperature: 0.0
-max_tokens: 1024
+# gpt-oss is a reasoning model: it spends tokens on an internal reasoning channel before the
+# final answer. With a small budget the answer (`content`) comes back empty, so give it room.
+max_tokens: 8192
 
 # Retry policy. Aitta returns 429 with a ~1-minute cooldown when rate-limited.
 max_retries: 6

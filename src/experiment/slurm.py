@@ -53,6 +53,11 @@ class SlurmConfig:
     logs_dir: str = "${HOME}/admet-fewshot/results/logs"
 
     array_concurrency: int = 16
+    # LUMI small-g caps submitted jobs (AssocMaxSubmitJobLimit, ~200). When the
+    # sweep has more jobs than this, we keep the SLURM array small and let each
+    # array task process a strided slice of the manifest. Stay well under 200 to
+    # leave room for the dependent collect job.
+    max_array_tasks: int = 150
 
     @classmethod
     def from_yaml(cls, path: Path) -> "SlurmConfig":
@@ -101,29 +106,51 @@ VENV_ACTIVATE="$venv_activate"
 
 # LLM (Aitta) plumbing — only used if ADMET_USE_LLM=1 is set.
 export ADMET_USE_LLM="$${ADMET_USE_LLM:-$use_llm_flag}"
-# AITTA_API_TOKEN must be inherited from the submitting environment (sbatch passes env by
-# default; if not, set --export=AITTA_API_TOKEN). Workers without it will fail loudly at the
-# first LLM call.
-export AITTA_API_TOKEN="$${AITTA_API_TOKEN:-}"
-# Forward both into the singularity container.
+TOKEN_FILE="$${AITTA_API_TOKEN_FILE:-$$WORK_DIR/conf/.aitta_token}"
+if [[ -z "$${AITTA_API_TOKEN:-}" && -f "$$TOKEN_FILE" ]]; then
+    export AITTA_API_TOKEN="$$(tr -d '[:space:]' < "$$TOKEN_FILE")"
+fi
 export SINGULARITYENV_ADMET_USE_LLM="$$ADMET_USE_LLM"
-export SINGULARITYENV_AITTA_API_TOKEN="$$AITTA_API_TOKEN"
+export SINGULARITYENV_AITTA_API_TOKEN="$${AITTA_API_TOKEN:-}"
+LLM_FLAG=""
+if [[ "$$ADMET_USE_LLM" == "1" ]]; then
+    LLM_FLAG="--llm"
+fi
 
 # Lumi container modules.
 module purge
 $module_use_lines
 $module_load_lines
 
+# This array task handles a STRIDED slice of the manifest so the SLURM array
+# stays small (<= max_array_tasks) and we never exceed LUMI's submit limit:
+#   indices TASK_IDX, TASK_IDX+N_TASKS, TASK_IDX+2*N_TASKS, ... < N_JOBS
+N_JOBS=$n_jobs
+N_TASKS=$n_tasks
+RUN_INDICES=""
+for (( idx=TASK_IDX; idx<N_JOBS; idx+=N_TASKS )); do
+    RUN_INDICES="$$RUN_INDICES $$idx"
+done
+echo "[worker] array task $$TASK_IDX handles manifest indices:$$RUN_INDICES"
+export SINGULARITYENV_RUN_INDICES="$$RUN_INDICES"
+
 cd "$$WORK_DIR"
 
+# Launch the container ONCE and loop over our indices inside it (amortizes the
+# slow container start + imports). A single job failure is logged but does not
+# abort the rest; the task's exit code is non-zero if any job failed.
 singularity exec \
 $bind_args    --pwd "$$WORK_DIR" \
     "$$CONTAINER" \
-    bash -lc "source '$$VENV_ACTIVATE' && \
-              python -m experiment.cli run-job \
-                --manifest '$$MANIFEST' \
-                --index '$$TASK_IDX' \
-                --results-dir '$$RESULTS_DIR'"
+    bash -lc "source '$$VENV_ACTIVATE' && rc=0 && \
+              for IDX in \$$RUN_INDICES; do \
+                echo \"[worker] === manifest index \$$IDX ===\"; \
+                python -m experiment.cli run-job \
+                  --manifest '$$MANIFEST' \
+                  --index \"\$$IDX\" \
+                  --results-dir '$$RESULTS_DIR' \
+                  $$LLM_FLAG || rc=1; \
+              done; exit \$$rc"
 """)
 
 
@@ -153,7 +180,9 @@ def render_sbatch(
     )
 
 
-def render_worker(*, cfg: SlurmConfig, manifest_path: Path, use_llm: bool = False) -> str:
+def render_worker(
+    *, cfg: SlurmConfig, manifest_path: Path, n_jobs: int, n_tasks: int, use_llm: bool = False,
+) -> str:
     module_use_lines = "\n".join(f"module use {p}" for p in cfg.module_use) or "true"
     module_load_lines = "\n".join(f"module load {m}" for m in cfg.singularity_modules) or "true"
     bind_args = "".join(f"    --bind {b} \\\n" for b in cfg.binds)
@@ -167,6 +196,8 @@ def render_worker(*, cfg: SlurmConfig, manifest_path: Path, use_llm: bool = Fals
         module_load_lines=module_load_lines,
         bind_args=bind_args,
         use_llm_flag="1" if use_llm else "0",
+        n_jobs=n_jobs,
+        n_tasks=n_tasks,
     )
 
 
@@ -185,15 +216,26 @@ def submit_sweep(
     """
     if n_jobs <= 0:
         raise ValueError("manifest is empty")
-    worker_path = manifest_path.with_name(f"{job_name}.worker.sh")
-    sbatch_path = manifest_path.with_name(f"{job_name}.sbatch")
+    manifest_path = manifest_path.resolve()
+    worker_path = manifest_path.with_name(f"{job_name}.worker.sh").resolve()
+    sbatch_path = manifest_path.with_name(f"{job_name}.sbatch").resolve()
 
-    worker_path.write_text(render_worker(cfg=cfg, manifest_path=manifest_path, use_llm=use_llm))
+    # Keep the SLURM array under the submit limit; each task strides the manifest.
+    n_tasks = min(n_jobs, max(1, cfg.max_array_tasks))
+    jobs_per_task = -(-n_jobs // n_tasks)  # ceil
+    log.info(
+        "array: %d jobs over %d tasks (<=%d/task), concurrency %%%d",
+        n_jobs, n_tasks, jobs_per_task, cfg.array_concurrency,
+    )
+
+    worker_path.write_text(render_worker(
+        cfg=cfg, manifest_path=manifest_path, n_jobs=n_jobs, n_tasks=n_tasks, use_llm=use_llm,
+    ))
     worker_path.chmod(worker_path.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP)
 
     sbatch_path.write_text(render_sbatch(
         cfg=cfg, manifest_path=manifest_path, worker_path=worker_path,
-        array_max=n_jobs - 1, job_name=job_name,
+        array_max=n_tasks - 1, job_name=job_name,
     ))
     sbatch_path.chmod(sbatch_path.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP)
     log.info("wrote sbatch script -> %s", sbatch_path)

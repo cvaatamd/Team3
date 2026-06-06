@@ -104,6 +104,15 @@ class LLMDataAgent(DataAgent):
         )
 
         keep_names = {d.source_name for d in decision.decisions if d.include}
+        if not keep_names:
+            # The `external` arm is defined by having an external source; if the LLM rejects
+            # every candidate we'd silently fall back to a degenerate single-task run (which
+            # diverges to NaN). Keep the candidates as auxiliary heads instead, and let the
+            # weak-match caveat be surfaced in the harmonization log / report.
+            log.warning(
+                "LLM rejected all %d source(s) for %s; keeping them as aux heads to avoid a "
+                "degenerate external arm.", len(candidates), target_endpoint)
+            return list(candidates)
         log.info("LLM kept %d/%d sources for %s: %s",
                  len(keep_names), len(candidates), target_endpoint, sorted(keep_names))
         return [(s, m) for s, m in candidates if s.name in keep_names]
@@ -175,27 +184,55 @@ class LLMPlanner(Planner):
         super().__init__(*args, **kwargs)
         self.llm = llm
 
-    def _write_report(self, df: pd.DataFrame) -> str:
-        templated = super()._write_report(df)
+    def _write_report(self, df: pd.DataFrame, metric: str = "rae") -> str:
+        templated = super()._write_report(df, metric=metric)
         if df.empty:
             return templated
+        from eval.curves import LOWER_IS_BETTER, normalize_endpoint_column
+        df = normalize_endpoint_column(df)
         agg = (
-            df.groupby(["target_endpoint", "arm", "n"], dropna=False)["rae"]
+            df.groupby(["endpoint", "arm", "n"], dropna=False)[metric]
             .agg(["mean", "std", "count"]).reset_index()
         )
-        narrative = self.llm.structured(
-            system=(
-                "You write the characterization deliverable for an ADMET few-shot transfer "
-                "study. The brief is: 'which auxiliary tasks transfer, in what data regime, "
-                "by how much?' Be specific and quantitative. Mention error bands; do not "
-                "claim a lift inside the band. Identify where transfer arms help vs. where "
-                "they don't, and propose what to investigate next."
-            ),
-            user=json.dumps({"aggregate_results": agg.to_dict("records")}, indent=2,
-                            default=_jsonable),
-            schema=ReportNarrative,
-            cache_key=f"narrative::{_hash_df(agg)}",
-        )
+        M = metric.upper()
+        if metric in LOWER_IS_BETTER:
+            direction = (
+                f"the values are {M} — LOWER IS BETTER. A transfer arm whose mean {M} is BELOW "
+                f"baseline (and whose error band is below baseline's) is an IMPROVEMENT/lift; an "
+                f"arm ABOVE baseline is a DEGRADATION. Do not call a lower-{M} arm a 'degradation'."
+            )
+        else:
+            direction = (
+                f"the values are {M} — HIGHER IS BETTER. A transfer arm whose mean {M} is ABOVE "
+                f"baseline (and whose error band is above baseline's) is an IMPROVEMENT/lift; an "
+                f"arm BELOW baseline is a DEGRADATION. Do not call a higher-{M} arm a 'degradation'."
+            )
+        try:
+            narrative = self.llm.structured(
+                system=(
+                    "You write the characterization deliverable for an ADMET few-shot transfer "
+                    "study. The brief is: 'which auxiliary tasks transfer, in what data regime, "
+                    "by how much?' Be specific and quantitative. "
+                    f"METRIC: {direction} Refer to the metric only as {M}. Mention error bands; do "
+                    "not claim a lift inside the band. Identify where transfer arms help vs. where "
+                    "they don't, and propose what to investigate next."
+                ),
+                user=json.dumps({"metric": metric, "aggregate_results": agg.to_dict("records")},
+                                indent=2, default=_jsonable),
+                schema=ReportNarrative,
+                # v3: metric-aware prompt + direction; key includes metric to avoid stale cache.
+                cache_key=f"narrative::v3::{metric}::{_hash_df(agg)}",
+            )
+        except Exception as e:
+            # The numeric deliverable (tables, curves, parquet) must always land. If Aitta is
+            # unreachable or won't emit schema-valid JSON, degrade to the deterministic report
+            # plus a note rather than crashing the whole collect step.
+            log.warning("LLM narrative unavailable (%s); writing deterministic report only.", e)
+            return (
+                f"{templated}\n## LLM characterization\n\n"
+                f"_LLM narrative skipped: {type(e).__name__}: {e}. "
+                "Tables and plots above are authoritative; re-run `collect --llm` to retry._\n"
+            )
         out = [templated, "\n## LLM characterization\n", narrative.summary, ""]
         if narrative.per_endpoint:
             out.append("### Per-endpoint\n")

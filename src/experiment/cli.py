@@ -59,7 +59,7 @@ def submit_sweep_cli(argv: list[str] | None = None) -> int:
 
     plan = load_plan(args.plan)
     args.results_dir.mkdir(parents=True, exist_ok=True)
-    manifest = args.results_dir / "manifest.jsonl"
+    manifest = (args.results_dir / "manifest.jsonl").resolve()
     write_manifest(plan, manifest)
     jobs = read_manifest(manifest)
 
@@ -76,12 +76,16 @@ def submit_sweep_cli(argv: list[str] | None = None) -> int:
         return 0 if n_fail == 0 else 1
 
     cfg = SlurmConfig.from_yaml(args.slurm)
+    results_abs = args.results_dir.resolve()
+    cfg.results_dir = str(results_abs)
+    cfg.logs_dir = str(results_abs / "logs")
+    cfg.work_dir = str(Path.cwd().resolve())
     sbatch, worker, job_id = submit_sweep(
         cfg=cfg, manifest_path=manifest, n_jobs=len(jobs),
         job_name=args.job_name, dry_run=args.dry_run, use_llm=args.llm,
     )
     if job_id:
-        print(job_id)
+        print(job_id)  # bare id for $(submit_sweep.sh) / --dependency=afterok
     else:
         print(f"sbatch: {sbatch}")
         print(f"worker: {worker}")
@@ -124,6 +128,11 @@ def plan_cli(argv: list[str] | None = None) -> int:
     p.add_argument("--llm", action="store_true",
                    help="use Aitta-backed LLMPlanner to write the §0 characterization")
     p.add_argument("--llm-config", type=Path, default=DEFAULT_LLM)
+    p.add_argument("--metric", default="rae",
+                   choices=["rae", "mae", "rmse", "r2", "spearman"],
+                   help="metric to plot/report (all are already stored per run). "
+                        "Non-rae metrics write curves_<metric>.png / ma_<metric>.png / "
+                        "report_<metric>.md so the default rae outputs are preserved.")
     args = p.parse_args(argv)
     df = collect_results(args.results_dir)
     if df.empty:
@@ -136,7 +145,17 @@ def plan_cli(argv: list[str] | None = None) -> int:
     # build curves + report via the planner's helpers
     from agents.planner import Planner
     from data.expansionrx import load_expansionrx
-    plan = load_plan(args.plan)
+    # Prefer the manifest in THIS results dir so the report header always matches what was run
+    # (keeps collect self-describing / standalone). Fall back to the plan YAML if no manifest.
+    manifest = args.results_dir / "manifest.jsonl"
+    if manifest.exists():
+        from .runner import plan_from_manifest
+        plan = plan_from_manifest(manifest)
+        log.info("collect: derived plan from %s (endpoints=%s, arms=%s)",
+                 manifest, plan.target_endpoints, plan.arms)
+    else:
+        plan = load_plan(args.plan)
+        log.info("collect: no manifest in %s; using plan %s", args.results_dir, args.plan)
     data = load_expansionrx()
     if args.llm:
         from agents.llm import AittaClient, AittaConfig
@@ -148,10 +167,16 @@ def plan_cli(argv: list[str] | None = None) -> int:
     else:
         planner = Planner(plan=plan, results_dir=args.results_dir, data=data)
     from eval.curves import plot_curves, plot_ma_rae
-    plot_curves(df, args.results_dir / "curves.png")
-    plot_ma_rae(df, args.results_dir / "ma_rae.png")
-    (args.results_dir / "report.md").write_text(planner._write_report(df))
-    log.info("wrote curves + report.md to %s", args.results_dir)
+    metric = args.metric
+    if metric == "rae":
+        curves_p, ma_p, report_p = "curves.png", "ma_rae.png", "report.md"
+    else:
+        curves_p, ma_p, report_p = (
+            f"curves_{metric}.png", f"ma_{metric}.png", f"report_{metric}.md")
+    plot_curves(df, args.results_dir / curves_p, metric=metric)
+    plot_ma_rae(df, args.results_dir / ma_p, metric=metric)
+    (args.results_dir / report_p).write_text(planner._write_report(df, metric=metric))
+    log.info("wrote %s + %s (metric=%s) to %s", curves_p, report_p, metric, args.results_dir)
     return 0
 
 

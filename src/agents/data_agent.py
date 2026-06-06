@@ -119,9 +119,21 @@ class DataAgent:
                 )
                 harmonization_log[src.name] = self._summarize_harmonization(res)
 
+        # Drop rows with no label in ANY task column. In sparse arms (baseline / external) most
+        # ExpansionRx rows carry neither the target nor an aux label; under the masked MT loss
+        # these produce all-masked batches whose loss is 0/0 = NaN, which propagates and kills
+        # the whole model (observed as RAE=nan on MBPB external). Multi-task arms rarely hit this
+        # because their extra heads label nearly every row. Keeping only labeled rows is a no-op
+        # for training signal and makes every batch well-defined.
+        labeled = df[task_cols].notna().any(axis=1)
+        n_unlabeled = int((~labeled).sum())
+        if n_unlabeled:
+            df = df.loc[labeled].copy()
+
         provenance = {
             "target_endpoint": target_col,
             "n_request": req.n,
+            "n_unlabeled_dropped": n_unlabeled,
             "seed": req.seed,
             "exclude_flagged_slices": req.exclude_flagged_slices,
             "n_flagged_dropped": n_dropped,

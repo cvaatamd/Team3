@@ -25,7 +25,10 @@ class ChempropConfig:
     epochs: int = 80
     batch_size: int = 64
     init_lr: float = 1e-4
-    max_lr: float = 1e-3
+    # max_lr=1e-3 caused NaN divergence on low-task pools (e.g. MBPB external: target + one
+    # weak aux head). Lowered to 2e-4 to keep the Noam schedule's peak step small enough to
+    # avoid the exploding-gradient blow-up while still converging within `epochs`.
+    max_lr: float = 2e-4
     final_lr: float = 1e-4
     depth: int = 3
     hidden_size: int = 300
@@ -36,6 +39,7 @@ class ChempropConfig:
     pretrained_checkpoint: str | None = None
     devices: int = 1
     accelerator: str = "auto"
+    grad_clip: float = 1.0  # clip exploding gradients -> avoids NaN divergence on sparse tasks
     val_fraction: float = 0.1
     smiles_col: str = "SMILES"
     extra_columns_to_ignore: list[str] = field(default_factory=list)
@@ -113,8 +117,11 @@ def train_predict_chemprop_mt(
     )
 
     # Standardize per-task on training labels (chemprop helper handles masked NaNs).
+    # `normalize_targets` returns an sklearn StandardScaler; the FFN's `output_transform`
+    # must be a chemprop nn.Module (UnscaleTransform), which Lightning .train()/.eval()s.
     scaler = train_ds.normalize_targets()
     val_ds.normalize_targets(scaler)
+    output_transform = nn.UnscaleTransform.from_standard_scaler(scaler)
 
     if cfg.pretrained_checkpoint:
         mpnn = models.MPNN.load_from_checkpoint(cfg.pretrained_checkpoint)
@@ -128,7 +135,7 @@ def train_predict_chemprop_mt(
             hidden_dim=cfg.hidden_size,
             n_layers=cfg.ffn_num_layers,
             dropout=cfg.dropout,
-            output_transform=scaler,
+            output_transform=output_transform,
         )
         mpnn.predictor = ffn
     else:
@@ -140,7 +147,7 @@ def train_predict_chemprop_mt(
             hidden_dim=cfg.hidden_size,
             n_layers=cfg.ffn_num_layers,
             dropout=cfg.dropout,
-            output_transform=scaler,
+            output_transform=output_transform,
         )
         mpnn = models.MPNN(
             message_passing=mp, agg=agg, predictor=ffn,
@@ -149,12 +156,27 @@ def train_predict_chemprop_mt(
         )
 
     pl.seed_everything(cfg.seed, workers=True)
+    # Force a single-process cluster environment. On Cray/Slurm (e.g. LUMI), an interactive
+    # `srun --pty bash` allocation exports PMI_* env vars; Lightning's auto-detection skips
+    # SLURMEnvironment for interactive shells and falls through to MPIEnvironment, which inits
+    # cray-mpich PMI and aborts ("PMI_Init returned -1") because this nested worker isn't its
+    # own srun step. We always run single-node/single-device, so pin LightningEnvironment.
+    from lightning.pytorch.plugins.environments import LightningEnvironment
     trainer = pl.Trainer(
         max_epochs=cfg.epochs,
         accelerator=cfg.accelerator,
         devices=cfg.devices,
+        num_nodes=1,
+        plugins=[LightningEnvironment()],
         enable_progress_bar=False,
         logger=False,
+        # No automatic checkpointing: many array tasks share this working dir, and
+        # Lightning's default ModelCheckpoint auto-versions filenames in a shared
+        # `checkpoints/` dir, which races under high concurrency (FileNotFoundError on
+        # `...-vN.ckpt`). We predict in-process right after fit; explicit persistence
+        # is handled separately via `checkpoint_out` below.
+        enable_checkpointing=False,
+        gradient_clip_val=cfg.grad_clip,
         deterministic=True,
     )
     trainer.fit(mpnn, train_loader, val_loader)

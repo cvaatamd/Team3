@@ -74,6 +74,47 @@ def read_manifest(path: Path) -> list[JobSpec]:
     return out
 
 
+_ARM_ORDER = ["baseline", "intra_task", "external", "both"]
+
+
+def plan_from_manifest(path: Path) -> ExperimentPlan:
+    """Reconstruct the ExperimentPlan from a results dir's manifest.
+
+    This keeps `collect` self-describing: the report header reflects exactly what was run for
+    *this* results dir, with no dependency on which plan YAML happened to be the default. Useful
+    for single-endpoint / custom sweeps where the default plan would mislabel the header.
+    """
+    jobs = read_manifest(path)
+    if not jobs:
+        raise ValueError(f"empty manifest: {path}")
+
+    endpoints, arms, ns, seeds = [], [], [], []
+    mech_by_arm: dict[str, str] = {}
+    for j in jobs:
+        if j.target_endpoint not in endpoints:
+            endpoints.append(j.target_endpoint)
+        if j.arm not in arms:
+            arms.append(j.arm)
+        if j.n not in ns:
+            ns.append(j.n)
+        if j.seed not in seeds:
+            seeds.append(j.seed)
+        mech_by_arm.setdefault(j.arm, j.mechanism)
+
+    arms = sorted(arms, key=lambda a: (_ARM_ORDER.index(a) if a in _ARM_ORDER else len(_ARM_ORDER)))
+    n_grid = sorted([n for n in ns if n is not None]) + ([None] if None in ns else [])
+    seeds = sorted(seeds)
+    return ExperimentPlan(
+        target_endpoints=endpoints,
+        arms=arms,
+        n_grid=n_grid,
+        seeds=seeds,
+        mechanism_by_arm=mech_by_arm,
+        exclude_flagged_slices=jobs[0].exclude_flagged_slices,
+        rae_definition=jobs[0].rae_definition,
+    )
+
+
 # ---- Single-job worker -----------------------------------------------------
 
 @dataclass

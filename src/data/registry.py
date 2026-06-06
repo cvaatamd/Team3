@@ -9,12 +9,19 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Callable
 
 import numpy as np
 import pandas as pd
 
 log = logging.getLogger(__name__)
+
+# Pre-cached external datasets (populated by scripts/precache_external.py on a node with
+# internet). Reading the parquet avoids importing polaris at run time — polaris pins zarr 2.x /
+# pyarrow <18 which conflict with the base container's zarr 3 / pyarrow 23 and HuggingFace
+# `datasets`, and LUMI compute nodes have no internet anyway.
+_CACHE_DIR = Path(__file__).resolve().parents[2] / "data_cache"
 
 
 @dataclass
@@ -36,10 +43,14 @@ class ExternalSource:
 # ----- Loaders --------------------------------------------------------------
 
 def load_biogen_fang() -> pd.DataFrame:
+    cache = _CACHE_DIR / "biogen_adme_fang_v1.parquet"
+    if cache.exists():
+        return pd.read_parquet(cache)
+    # Fallback: fetch live (needs polaris + internet; see scripts/precache_external.py).
     import polaris as po
     ds = po.load_dataset("biogen/adme-fang-v1")
-    df = ds.table if hasattr(ds, "table") else ds.to_pandas()
-    return df
+    tbl = ds.table if hasattr(ds, "table") else ds
+    return tbl if isinstance(tbl, pd.DataFrame) else tbl.to_pandas()
 
 
 def load_tdc_caco2() -> pd.DataFrame:
@@ -52,19 +63,19 @@ def load_tdc_caco2() -> pd.DataFrame:
 # ----- Harmonization closures ----------------------------------------------
 
 def _hlm_clint_from_log_mlmin_kg(df: pd.DataFrame) -> pd.Series:
-    # Biogen: LOG HLM_CLint (mL/min/kg). ExpansionRx HLM CLint is raw mL/min/kg.
-    return np.power(10.0, df["LOG HLM_CLint (mL/min/kg)"].astype(float))
+    # Biogen LOG_HLM_CLint is log10(mL/min/kg); ExpansionRx HLM CLint is raw mL/min/kg.
+    return np.power(10.0, df["LOG_HLM_CLint"].astype(float))
 
 
 def _rlm_clint_from_log(df: pd.DataFrame) -> pd.Series:
-    return np.power(10.0, df["LOG RLM_CLint (mL/min/kg)"].astype(float))
+    return np.power(10.0, df["LOG_RLM_CLint"].astype(float))
 
 
 def _ksol_um_from_log_ugml(df: pd.DataFrame) -> pd.Series:
-    """Biogen LOG SOLUBILITY PH 6.8 (ug/mL) → µM via molecular weight (§2.4)."""
+    """Biogen LOG_SOLUBILITY (log10 µg/mL) → µM via molecular weight (§2.4)."""
     from rdkit import Chem
     from rdkit.Chem import Descriptors
-    ug_per_ml = np.power(10.0, df["LOG SOLUBILITY PH 6.8 (ug/mL)"].astype(float))
+    ug_per_ml = np.power(10.0, df["LOG_SOLUBILITY"].astype(float))
     mws = []
     for smi in df["SMILES"]:
         m = Chem.MolFromSmiles(smi) if isinstance(smi, str) else None
@@ -75,12 +86,12 @@ def _ksol_um_from_log_ugml(df: pd.DataFrame) -> pd.Series:
 
 
 def _mdr1_efflux_from_log(df: pd.DataFrame) -> pd.Series:
-    return np.power(10.0, df["LOG MDR1-MDCK ER"].astype(float))
+    return np.power(10.0, df["LOG_MDR1-MDCK_ER"].astype(float))
 
 
 def _ppb_pct_from_human(df: pd.DataFrame) -> pd.Series:
-    # Biogen hPPB stored as fraction unbound; convert to % unbound to match ExpansionRx MPPB.
-    return df["hPPB"].astype(float) * 100.0
+    # Biogen LOG_HPPB is log10(% protein binding); ExpansionRx M*PB targets are % (logit_pct).
+    return np.power(10.0, df["LOG_HPPB"].astype(float))
 
 
 def _caco2_papp_from_tdc(df: pd.DataFrame) -> pd.Series:
@@ -97,37 +108,44 @@ REGISTRY: dict[str, ExternalSource] = {
         mappings=[
             ExternalEndpointMap(
                 target_endpoint="HLM CLint",
-                source_column="LOG HLM_CLint (mL/min/kg)",
+                source_column="LOG_HLM_CLint",
                 harmonize=_hlm_clint_from_log_mlmin_kg,
                 match_quality="near-identical",
                 notes="same assay, same units, source is already log10",
             ),
             ExternalEndpointMap(
                 target_endpoint="RLM CLint",
-                source_column="LOG RLM_CLint (mL/min/kg)",
+                source_column="LOG_RLM_CLint",
                 harmonize=_rlm_clint_from_log,
                 match_quality="strong",
             ),
             ExternalEndpointMap(
                 target_endpoint="KSOL",
-                source_column="LOG SOLUBILITY PH 6.8 (ug/mL)",
+                source_column="LOG_SOLUBILITY",
                 harmonize=_ksol_um_from_log_ugml,
                 match_quality="protocol-caveat",
                 notes="needs ug/mL -> uM via MW; protocol differs",
             ),
             ExternalEndpointMap(
                 target_endpoint="Caco-2 Permeability Efflux",
-                source_column="LOG MDR1-MDCK ER",
+                source_column="LOG_MDR1-MDCK_ER",
                 harmonize=_mdr1_efflux_from_log,
                 match_quality="analogous",
                 notes="different cell line (MDR1-MDCK vs Caco-2)",
             ),
             ExternalEndpointMap(
                 target_endpoint="MPPB",
-                source_column="hPPB",
+                source_column="LOG_HPPB",
                 harmonize=_ppb_pct_from_human,
                 match_quality="species-transfer",
-                notes="human -> mouse",
+                notes="human hPPB -> mouse MPPB",
+            ),
+            ExternalEndpointMap(
+                target_endpoint="MBPB",
+                source_column="LOG_HPPB",
+                harmonize=_ppb_pct_from_human,
+                match_quality="species-transfer",
+                notes="human hPPB proxy for mouse MBPB; no mouse PPB in source, may be biased",
             ),
         ],
     ),
