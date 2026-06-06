@@ -145,6 +145,13 @@ Per (target, source) pair the data agent must:
    of the genuinely agentic choices.
 4. **Standardization** — canonical SMILES, salt strip, neutralize (RDKit / `chembl_structure_pipeline`),
    dedupe, drop the flagged bad slices (§2.2) per toggle.
+5. **Pool hygiene (required for Chemprop MT).** After merging intra-task and external sources, **drop
+   any row that has no label in any task column** before handing the pool to the ML agent. Sparse
+   arms (`baseline`, `external`) otherwise retain thousands of all-NaN ExpansionRx rows; with
+   Chemprop's masked multitask loss and `batch_size=64`, many training batches then have zero valid
+   labels → loss = 0/0 = NaN → all-NaN predictions (`RAE=nan`, `n_test=0`). Multi-task arms with
+   intra-task auxiliaries rarely hit this because their extra heads label nearly every row. See
+   [CHEMPROP_STABILITY.md](CHEMPROP_STABILITY.md) for the full diagnosis.
 
 ---
 
@@ -173,6 +180,19 @@ is only credible if the MT/transfer arms beat this. Make it a real, tuned baseli
 
 All models: train in transformed target space, invert predictions before scoring. Fixed seeds,
 deterministic where possible.
+
+**Chemprop MT on LUMI / SLURM (stability requirements).** The wrapper in `src/models/chemprop_mt.py`
+must:
+
+- Use **masked loss over NaN targets** (Chemprop built-in) *and* ensure the data agent never feeds
+  all-unlabeled rows (§2.4 step 5).
+- Set **`enable_checkpointing=False`** when many array tasks share a working directory — Lightning's
+  default checkpoint versioning races under concurrency.
+- Wire the FFN **`output_transform`** as chemprop's `UnscaleTransform`, not a raw sklearn scaler.
+- Pin **`LightningEnvironment`** on Cray/Shasta login allocations to avoid PMI init failures.
+- Optionally lower **`max_lr`** and enable **`gradient_clip_val`** on very sparse multitask pools.
+
+Details and debugging checklist: [CHEMPROP_STABILITY.md](CHEMPROP_STABILITY.md).
 
 ---
 

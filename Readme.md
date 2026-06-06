@@ -5,7 +5,8 @@ Implementation of the multi-task few-shot ADMET pipeline described in [Plan.md](
 Designed to run on Lumi-G via SLURM array jobs inside a Singularity container.
 
 New here? Read [OVERVIEW.md](OVERVIEW.md) for the goal of the workflow and what you get when you
-run it. Findings from the completed sweep are in [RESULTS.md](RESULTS.md).
+run it. Findings from the completed sweep are in [RESULTS.md](RESULTS.md). If Chemprop
+`external`-arm jobs return `rae=null`, see [CHEMPROP_STABILITY.md](CHEMPROP_STABILITY.md).
 
 ## TL;DR — run the whole thing (no prior knowledge needed)
 
@@ -47,6 +48,7 @@ src/agents   Typed contracts + deterministic data / ML / planner agents (§5 of 
 src/experiment   Job enumeration + SLURM dispatcher + worker CLI
 tests/       Unit tests (metrics, transforms, contracts, sbatch rendering)
 scripts/     submit_sweep.sh convenience wrapper
+CHEMPROP_STABILITY.md   Chemprop + external-data NaN diagnosis and fixes (required reading for sparse arms)
 ```
 
 ## Quickstart — running the sweep

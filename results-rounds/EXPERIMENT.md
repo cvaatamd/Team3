@@ -3,7 +3,8 @@
 Run date: 2026-06-06 · LUMI-G · `project_462001520` · **complete (240/240 jobs, 0 NaN)**.
 Driver: the agent pipeline (`scripts/run_rounds.sh`), Aitta `openai/gpt-oss-120b` for the agentic
 decisions. Companion docs: [OVERVIEW.md](../OVERVIEW.md) (goal), [RESULTS.md](../RESULTS.md)
-(prior 2-endpoint sweep), [Readme.md](../Readme.md) (how to run).
+(prior 2-endpoint sweep), [Readme.md](../Readme.md) (how to run),
+[CHEMPROP_STABILITY.md](../CHEMPROP_STABILITY.md) (Chemprop NaN fixes).
 
 ## Objective
 
@@ -136,7 +137,21 @@ workflow is built to produce.
 - The numeric tables/plots are always the ground truth; the LLM narrative is a written summary on
   top of them.
 
-### Fixes applied after the first collect (both standalone)
+### Fixes applied before / during these rounds
+
+These rounds completed **240/240 with 0 NaN** because the Chemprop stability fixes were already in
+the codebase. See **[CHEMPROP_STABILITY.md](../CHEMPROP_STABILITY.md)** for the full story; summary:
+
+1. **Empty-batch NaN (primary).** Sparse `external` pools kept ~95% all-unlabeled ExpansionRx rows;
+   Chemprop masked loss hit 0/0 = NaN. Fix: data agent drops rows with no label in any task column
+   (`src/agents/data_agent.py`).
+2. **Checkpoint race.** Shared `checkpoints/` under array concurrency → `FileNotFoundError`. Fix:
+   `enable_checkpointing=False` (`src/models/chemprop_mt.py`).
+3. **Output transform + LUMI env.** `UnscaleTransform` for the FFN; `LightningEnvironment` for
+   Cray/PMI.
+4. **LR headroom.** `max_lr` 1e-3 → 2e-4, `grad_clip=1.0` (extra margin; not sufficient alone).
+
+### Fixes applied after the first collect (reporting)
 
 1. **Self-describing report header.** `collect` now reconstructs the plan from each results dir's
    own `manifest.jsonl` (`plan_from_manifest`, `src/experiment/runner.py`), so headers always match

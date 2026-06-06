@@ -2,7 +2,8 @@
 
 Run date: 2026-06-06 · LUMI-G · `project_462001520`.
 Self-contained, separate from earlier runs (`results/`, `results-rounds/`); nothing here depends
-on previous results. Companion docs: [OVERVIEW.md](../OVERVIEW.md), [Readme.md](../Readme.md).
+on previous results. Companion docs: [OVERVIEW.md](../OVERVIEW.md), [Readme.md](../Readme.md),
+[CHEMPROP_STABILITY.md](../CHEMPROP_STABILITY.md).
 
 ## Objective
 
@@ -348,3 +349,22 @@ above; the other four metrics follow.
 | ![hlm Spearman](hlm/curves_spearman.png) | ![mbpb Spearman](mbpb/curves_spearman.png) |
 | ![ksol Spearman](ksol/curves_spearman.png) | ![mppb Spearman](mppb/curves_spearman.png) |
 | ![caco2eff Spearman](caco2eff/curves_spearman.png) | |
+
+---
+
+## Engineering — Chemprop stability with external data
+
+The first 2-endpoint sweep (`results/`, documented in [RESULTS.md](../RESULTS.md)) initially had
+**21/240 NaN cells** on the MBPB `external` arm before these fixes. This full experiment assumes
+the patched codebase; without it, sparse `external` arms can return `rae=null` even when training
+appears to finish.
+
+| Issue | Fix | Where |
+|---|---|---|
+| Empty-batch masked multitask loss on sparse pools | Drop all-unlabeled rows in `build_pool()` | `src/agents/data_agent.py` |
+| SLURM checkpoint race | `enable_checkpointing=False` | `src/models/chemprop_mt.py` |
+| Wrong FFN unscaling | `UnscaleTransform.from_standard_scaler` | `src/models/chemprop_mt.py` |
+| LUMI Lightning env | `LightningEnvironment()` plugin | `src/models/chemprop_mt.py` |
+
+Full diagnosis (wrong turns, MBPB `both` vs `external` clue, timeline):
+**[CHEMPROP_STABILITY.md](../CHEMPROP_STABILITY.md)**.
