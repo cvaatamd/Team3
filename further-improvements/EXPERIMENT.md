@@ -114,6 +114,11 @@ data**, so both arms are identical and aux-blind.
 ### pretrain_finetune — learning curves
 ![pretrain_finetune RAE curves](results-fewshot/pf/curves.png)
 
+Macro-averaged RAE across the three endpoints (the challenge's primary-deliverable view), one line
+per arm — `pretrain_finetune` transfer arms vs the single-task baseline:
+
+![pretrain_finetune macro-averaged RAE](results-fewshot/pf/ma_rae.png)
+
 ### MBPB — sparse (n=975)
 | n | baseline | mt +ext | mt +both | pf +ext | pf +both |
 |---|---|---|---|---|---|
@@ -171,6 +176,10 @@ there is no matched `mt_cotrain` to pair against.)
 
 ### frozen_embed — ruled out
 ![frozen_embed RAE curves](results-fewshot/fe/curves.png)
+
+Macro-averaged RAE (note the y-axis blow-up driven by KSOL):
+
+![frozen_embed macro-averaged RAE](results-fewshot/fe/ma_rae.png)
 
 A ridge head on the *frozen* pretrained embeddings is worse in **all 12 cells** and unstable on KSOL,
 where RAE blows up (the encoder, pretrained only briefly on aux, is a poor fixed feature extractor
