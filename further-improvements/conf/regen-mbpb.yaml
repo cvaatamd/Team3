@@ -1,0 +1,15 @@
+# Regenerate MBPB runs WITH persisted predictions (Patch 1). Mirrors conf/fullexp-mbpb.yaml.
+# n_grid trimmed to the two reported regimes (few-shot 50 + full) to keep GPU cost low; widen to
+# [25, 50, 100, 250, 500, null] for a full reproduction. baseline included so the molecule-level
+# bootstrap has a paired reference.
+target_endpoints:
+  - "MBPB"
+arms: ["baseline", "intra_task", "external", "both"]
+n_grid: [50, null]
+seeds: [0, 1, 2, 3, 4]
+mechanism_by_arm:
+  baseline: "gbm_baseline"
+  intra_task: "mt_cotrain"
+  external: "mt_cotrain"
+  both: "mt_cotrain"
+exclude_flagged_slices: true

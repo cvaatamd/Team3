@@ -1,0 +1,9 @@
+{
+  "endpoint": "MBPB",
+  "arm": "baseline",
+  "n": "50",
+  "seed": 1,
+  "mechanism": "gbm_baseline",
+  "test_range": 31.85,
+  "n_test": 451
+}

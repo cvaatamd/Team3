@@ -1,0 +1,23 @@
+# FEW-SHOT MECHANISM SWEEP — pretrain_finetune (further-improvements).
+#
+# Goal: LOWER the small-n errors that results-fullexp left weak/unreliable. The original study
+# only ever ran `mt_cotrain` (co-training) for the transfer arms; `pretrain_finetune` was a no-op
+# because nothing produced a pretrained checkpoint. The patched ml_agent now genuinely pretrains
+# the MPNN on the auxiliary tasks (external source +/- intra-task heads) and fine-tunes on the
+# target — the textbook fix for the n=25 collapse.
+#
+# Compare these external/both RAEs (same n, same seeds) against the mt_cotrain numbers in
+# results-fullexp via further-improvements/scripts/compare_fewshot.py. baseline (gbm) is kept as an
+# in-dir paired reference for the molecule-level bootstrap (both arms persist predictions here).
+target_endpoints:
+  - "MBPB"
+  - "MPPB"
+  - "KSOL"
+arms: ["baseline", "external", "both"]
+n_grid: [25, 50, 100]          # the few-shot regime where transfer should help most
+seeds: [0, 1, 2, 3, 4]
+mechanism_by_arm:
+  baseline: "gbm_baseline"
+  external: "pretrain_finetune"
+  both: "pretrain_finetune"
+exclude_flagged_slices: true

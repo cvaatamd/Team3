@@ -1,0 +1,11 @@
+# SMOKE — validates the pretrain_finetune fix on the multi-aux `both` arm (the case that hit the
+# task-dimension mismatch). MBPB/both pretrains over the full multitask head on aux-labeled rows,
+# then fine-tunes on the target. One n, one seed.
+target_endpoints:
+  - "MBPB"
+arms: ["both"]
+n_grid: [50]
+seeds: [0]
+mechanism_by_arm:
+  both: "pretrain_finetune"
+exclude_flagged_slices: true

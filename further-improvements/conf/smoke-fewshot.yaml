@@ -1,0 +1,12 @@
+# SMOKE TEST for the new transfer mechanisms (further-improvements).
+# One endpoint, the external arm only, a single small-n slice, one seed: validates that
+# pretrain_finetune actually pretrains + fine-tunes end-to-end (and persists predictions) on a GPU
+# compute node BEFORE committing the full sweeps. Swap the mechanism to frozen_embed to smoke that.
+target_endpoints:
+  - "MBPB"
+arms: ["external"]
+n_grid: [50]
+seeds: [0]
+mechanism_by_arm:
+  external: "pretrain_finetune"
+exclude_flagged_slices: true

@@ -1,0 +1,21 @@
+# FEW-SHOT MECHANISM SWEEP — frozen_embed (further-improvements).
+#
+# Goal: LOWER the small-n errors with the cheapest credible transfer model. The patched ml_agent
+# pretrains the MPNN on the auxiliary tasks, then FREEZES it and fits a light ridge head on the
+# pretrained embeddings of the (tiny) target set. At n<=50 a frozen encoder + linear head usually
+# beats full co-training, which overfits. (When an arm has no aux source it degrades gracefully to
+# ECFP4+descriptor features — i.e. the GBM-style baseline featurization.)
+#
+# Compare external/both RAEs against results-fullexp mt_cotrain via scripts/compare_fewshot.py.
+target_endpoints:
+  - "MBPB"
+  - "MPPB"
+  - "KSOL"
+arms: ["baseline", "external", "both"]
+n_grid: [25, 50, 100]
+seeds: [0, 1, 2, 3, 4]
+mechanism_by_arm:
+  baseline: "gbm_baseline"
+  external: "frozen_embed"
+  both: "frozen_embed"
+exclude_flagged_slices: true

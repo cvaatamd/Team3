@@ -1,0 +1,14 @@
+# NEGATIVE CONTROL — MBPB (Patch 3). Same external/both arms, but the external source's labels
+# are permuted (shuffle_external_seed) so the structure-activity link is destroyed. Compare these
+# RAEs against the REAL external/both arms (results-fullexp/mbpb or the regen run): if the real
+# arm beats the shuffled one, the external lift is genuine transfer, not regularization.
+target_endpoints:
+  - "MBPB"
+arms: ["external", "both"]
+n_grid: [50, null]
+seeds: [0, 1, 2, 3, 4]
+mechanism_by_arm:
+  external: "mt_cotrain"
+  both: "mt_cotrain"
+exclude_flagged_slices: true
+shuffle_external_seed: 1234

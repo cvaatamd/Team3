@@ -1,0 +1,72 @@
+[regen] task 29 -> indices: 29 65 101  (code=/pfs/lustrep1/scratch/project_462001520/Team3/Team3/further-improvements/src results=/pfs/lustrep1/scratch/project_462001520/Team3/Team3/further-improvements/results-fewshot/pf)
+[regen] === manifest index 29 ===
+┏━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name            ┃ Type               ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ message_passing │ BondMessagePassing │  227 K │ train │     0 │
+│ 1 │ agg             │ MeanAggregation    │      0 │ train │     0 │
+│ 2 │ bn              │ BatchNorm1d        │    600 │ train │     0 │
+│ 3 │ predictor       │ RegressionFFN      │  181 K │ train │     0 │
+│ 4 │ X_d_transform   │ Identity           │      0 │ train │     0 │
+│ 5 │ metrics         │ ModuleList         │      0 │ train │     0 │
+└───┴─────────────────┴────────────────────┴────────┴───────┴───────┘
+Trainable params: 409 K                                                         
+Non-trainable params: 0                                                         
+Total params: 409 K                                                             
+Total estimated model params size (MB): 1                                       
+Modules in train mode: 26                                                       
+Modules in eval mode: 0                                                         
+Total FLOPs: 0                                                                  
+┏━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name            ┃ Type               ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ message_passing │ BondMessagePassing │  227 K │ train │     0 │
+│ 1 │ agg             │ MeanAggregation    │      0 │ train │     0 │
+│ 2 │ bn              │ BatchNorm1d        │    600 │ train │     0 │
+│ 3 │ predictor       │ RegressionFFN      │  181 K │ train │     0 │
+│ 4 │ X_d_transform   │ Identity           │      0 │ train │     0 │
+│ 5 │ metrics         │ ModuleList         │      0 │ train │     0 │
+└───┴─────────────────┴────────────────────┴────────┴───────┴───────┘
+Trainable params: 409 K                                                         
+Non-trainable params: 0                                                         
+Total params: 409 K                                                             
+Total estimated model params size (MB): 1                                       
+Modules in train mode: 26                                                       
+Modules in eval mode: 0                                                         
+Total FLOPs: 0                                                                  
+[regen] === manifest index 65 ===
+┏━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name            ┃ Type               ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ message_passing │ BondMessagePassing │  227 K │ train │     0 │
+│ 1 │ agg             │ MeanAggregation    │      0 │ train │     0 │
+│ 2 │ bn              │ BatchNorm1d        │    600 │ train │     0 │
+│ 3 │ predictor       │ RegressionFFN      │  181 K │ train │     0 │
+│ 4 │ X_d_transform   │ Identity           │      0 │ train │     0 │
+│ 5 │ metrics         │ ModuleList         │      0 │ train │     0 │
+└───┴─────────────────┴────────────────────┴────────┴───────┴───────┘
+Trainable params: 409 K                                                         
+Non-trainable params: 0                                                         
+Total params: 409 K                                                             
+Total estimated model params size (MB): 1                                       
+Modules in train mode: 26                                                       
+Modules in eval mode: 0                                                         
+Total FLOPs: 0                                                                  
+┏━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name            ┃ Type               ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ message_passing │ BondMessagePassing │  227 K │ train │     0 │
+│ 1 │ agg             │ MeanAggregation    │      0 │ train │     0 │
+│ 2 │ bn              │ BatchNorm1d        │    600 │ train │     0 │
+│ 3 │ predictor       │ RegressionFFN      │  181 K │ train │     0 │
+│ 4 │ X_d_transform   │ Identity           │      0 │ train │     0 │
+│ 5 │ metrics         │ ModuleList         │      0 │ train │     0 │
+└───┴─────────────────┴────────────────────┴────────┴───────┴───────┘
+Trainable params: 409 K                                                         
+Non-trainable params: 0                                                         
+Total params: 409 K                                                             
+Total estimated model params size (MB): 1                                       
+Modules in train mode: 26                                                       
+Modules in eval mode: 0                                                         
+Total FLOPs: 0                                                                  
+[regen] === manifest index 101 ===

@@ -1,0 +1,11 @@
+# NEGATIVE CONTROL — MPPB (Patch 3). Shuffled external labels; compare to the real external arm.
+target_endpoints:
+  - "MPPB"
+arms: ["external", "both"]
+n_grid: [50, null]
+seeds: [0, 1, 2, 3, 4]
+mechanism_by_arm:
+  external: "mt_cotrain"
+  both: "mt_cotrain"
+exclude_flagged_slices: true
+shuffle_external_seed: 1234

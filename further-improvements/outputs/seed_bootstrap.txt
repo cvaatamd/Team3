@@ -1,0 +1,12 @@
+endpoint arm      metric    Δ (lift)   95% CI                signif   sign-consistency
+----------------------------------------------------------------------------------------
+MBPB     external rae       +0.0253   [+0.0165, +0.0352]   SIGNIFICANT  5/5 seeds
+MBPB     external spearman  +0.0734   [+0.0440, +0.1056]   SIGNIFICANT  5/5 seeds
+KSOL     external rae       +0.0593   [+0.0439, +0.0747]   SIGNIFICANT  5/5 seeds
+KSOL     external spearman  +0.0303   [+0.0155, +0.0451]   SIGNIFICANT  5/5 seeds
+MPPB     external rae       +0.0434   [+0.0335, +0.0522]   SIGNIFICANT  5/5 seeds
+MPPB     external spearman  +0.2357   [+0.1805, +0.2909]   SIGNIFICANT  5/5 seeds
+MBPB     both     rae       +0.0179   [+0.0044, +0.0358]   SIGNIFICANT  4/5 seeds
+MBPB     both     spearman  +0.0851   [+0.0488, +0.1289]   SIGNIFICANT  5/5 seeds
+MPPB     both     rae       +0.0322   [+0.0245, +0.0386]   SIGNIFICANT  5/5 seeds
+MPPB     both     spearman  +0.2308   [+0.2047, +0.2629]   SIGNIFICANT  5/5 seeds

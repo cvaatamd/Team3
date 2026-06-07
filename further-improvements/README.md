@@ -9,6 +9,31 @@
 This folder is a focused action plan, not a lab notebook. Everything here is either zero-run
 (reads the existing `results-fullexp/*/results.parquet`) or a sub-day change.
 
+> **Now implemented (isolated copy):** Patches 1–3 are applied in `src/` here (a copy of the
+> repo's `src/`; the production `../src/` is untouched). See [`IMPLEMENTATION.md`](./IMPLEMENTATION.md)
+> for exactly what changed and the 3-step run guide. Heavy prediction-regeneration runs on **GPU via
+> SLURM** (`scripts/submit_regen.sh`) — never on a login node; re-score and bootstrap are light.
+
+### Docs in this folder
+- **[`EXPERIMENT.md`](./EXPERIMENT.md) — the full formal report** (context, design, SLURM, results
+  tables, plots, takeaways), mirroring `../results-fullexp/EXPERIMENT.md`.
+- **[`RUNBOOK.md`](./RUNBOOK.md) — run your own experiments manually** (env, configs, submit, monitor,
+  analyze, troubleshooting).
+- [`RESULTS.md`](./RESULTS.md) — TL;DR of the findings (pretrain_finetune wins, frozen_embed ruled out).
+- [`IMPLEMENTATION.md`](./IMPLEMENTATION.md) — exactly what the patches change in `src/`.
+- This file (`README.md`) — the competitive strategy / why this work matters.
+
+### Folder contents
+- `src/` — patched copy of the pipeline (persist-preds, official RAE, negative control, **real
+  pretrain_finetune / frozen_embed transfer**). The production `../src/` is untouched.
+- `conf/` — experiment configs: `fewshot-*.yaml` (mechanism sweeps), `regen-*.yaml`,
+  `negctrl-*.yaml`, `smoke-*.yaml`, plus a local `endpoints.yaml`.
+- `scripts/submit_regen.sh`, `scripts/regen.worker.sh` — GPU SLURM launcher + per-task worker.
+- `scripts/rescore_official.py` — offline RAE re-score (all definitions) from persisted preds.
+- `scripts/compare_fewshot.py` — paired new-vs-old RAE comparison with bootstrap CIs.
+- `scripts/bootstrap_lift_molecule.py` — molecule-level paired bootstrap CIs.
+- `outputs/` — analysis CSVs; `results-fewshot/{pf,fe}/` — sweep outputs + per-molecule `preds/`.
+
 ---
 
 ## The competitive picture (why this plan)
@@ -58,10 +83,13 @@ team2's whole pitch is "the agent's value is the explanation." We already captur
 
 ---
 
-## Statistical hardening (cheap, optional, strengthens #1)
-Run [`bootstrap_lift.py`](./bootstrap_lift.py) to turn "mean looks lower" into a CI + sign test.
-- Caveat to state honestly: it bootstraps over **5 seeds** (seed variance, not test-molecule
-  variance). Once #2 persists predictions, re-run it at the **molecule level** for much tighter CIs.
+## Statistical hardening (done)
+Predictions are now persisted, so significance is computed properly:
+- `bootstrap_lift.py` — seed-level bootstrap straight off the existing `results.parquet` (no regen).
+- `scripts/compare_fewshot.py` — paired bootstrap over seeds, new-vs-old, with 95% CIs + sign test
+  (used for the RESULTS.md tables).
+- `scripts/bootstrap_lift_molecule.py` — molecule-level paired bootstrap (~2.3k test molecules) for
+  much tighter CIs than seed-level.
 
 ---
 

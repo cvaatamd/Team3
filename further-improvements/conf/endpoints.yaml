@@ -1,0 +1,29 @@
+# ExpansionRx endpoint definitions: column name, units, transform, floors.
+# Values come from §2.1 of Plan.md.
+endpoints:
+  - column: "LogD"
+    transform: "identity"
+  - column: "KSOL"
+    transform: "log10"
+    floor: 1.0e-3
+  - column: "HLM CLint"
+    transform: "log10"
+    floor: 1.0e-3
+  - column: "MLM CLint"
+    transform: "log10"
+    floor: 1.0e-3
+  - column: "Caco-2 Permeability Papp A>B"
+    transform: "log10"
+    floor: 1.0e-3
+  - column: "Caco-2 Permeability Efflux"
+    transform: "log10"
+    floor: 1.0e-3
+  - column: "MPPB"
+    transform: "logit_pct"
+    clip: [0.001, 0.999]
+  - column: "MBPB"
+    transform: "logit_pct"
+    clip: [0.001, 0.999]
+  - column: "MGMB"
+    transform: "logit_pct"
+    clip: [0.001, 0.999]
