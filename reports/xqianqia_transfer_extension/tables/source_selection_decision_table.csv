@@ -1,0 +1,7 @@
+target,regime,recommended,avoid,decision
+HLM CLint,n=50,MLM CLint,MBPB,Use metabolism-related source only in few-shot.
+HLM CLint,full,baseline / no transfer,"MLM, MBPB",Baseline already strong; transfer adds noise.
+MBPB,n=50,MPPB,HLM CLint,Plasma/brain binding relation is useful.
+MBPB,full,MPPB; MPPB+MGMB comparable,none clear,Binding/tissue sources consistently help.
+Caco-2 Papp A>B,n=50,Caco-2 Efflux,MBPB,Permeability-related source helps in few-shot.
+Caco-2 Papp A>B,full,baseline / no transfer,"Efflux, LogD, MBPB",Full target data beats tested transfer sources.

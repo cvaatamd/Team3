@@ -1,0 +1,18 @@
+target_endpoints:
+  - "HLM CLint"
+  - "Caco-2 Permeability Papp A>B"
+arms:
+  - "external"
+  - "both"
+n_grid:
+  - 50
+  - null
+seeds:
+  - 0
+  - 1
+  - 2
+mechanism_by_arm:
+  external: "mt_cotrain"
+  both: "mt_cotrain"
+exclude_flagged_slices: true
+rae_definition: "range_normalized"
