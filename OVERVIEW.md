@@ -2,7 +2,7 @@
 
 A plain-language companion to [Plan.md](Plan.md) (the technical spec) and
 [RESULTS.md](RESULTS.md) (the findings). This explains *why* the pipeline exists and *what you
-get* when you run it. Chemprop reliability notes: [CHEMPROP_STABILITY.md](CHEMPROP_STABILITY.md).
+get* when you run it.
 
 ## The scientific question
 
@@ -36,9 +36,7 @@ Data sources ─► Data agent (finds & harmonizes) ──pool(n)──► ML ag
   the end, writes the interpretation.
 - **Data agent** — builds the training pool: selects related/external sources, reconciles units,
   runs a calibration check, and decides whether to pool a source or co-train it as an auxiliary
-  head. For sparse arms (`baseline`, `external`) it also **drops rows with no label in any task
-  column** so Chemprop's masked multitask loss never sees empty batches (see
-  [CHEMPROP_STABILITY.md](CHEMPROP_STABILITY.md)).
+  head.
 - **ML agent** — picks a mechanism (LightGBM baseline / multitask Chemprop / pretrain-finetune /
   frozen-embed), trains, and scores on the **fixed held-out test split** with the challenge's
   RAE metric.

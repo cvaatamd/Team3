@@ -92,24 +92,20 @@ Outputs land in `results/`: `results.parquet`, `curves.png`, `ma_rae.png`, `repo
 
 ## Engineering notes (issues found and fixed during this run)
 
-The first collect reported **219/240** valid jobs: 21 `external`-arm cells (mostly MBPB) returned
-`rae=null` / `n_test=0` (all-NaN Chemprop predictions). After a multi-step debug session the sweep
-reached **240/240**. Full write-up: **[CHEMPROP_STABILITY.md](CHEMPROP_STABILITY.md)**.
+These were uncovered while getting the sweep to 240/240 clean and are documented for future runs:
 
-### Chemprop + external data (summary)
-
-| # | Issue | Symptom | Fix | File |
-|---|------|---------|-----|------|
-| 1 | **Empty-batch masked loss** | Training completes; every prediction NaN; `both` arm stable with same external source | Drop rows with no label in any task column from the training pool | `src/agents/data_agent.py` |
-| 2 | **Checkpoint race** | `FileNotFoundError` on shared `checkpoints/*.ckpt` under array concurrency | `enable_checkpointing=False`; pin `LightningEnvironment` for LUMI/Cray | `src/models/chemprop_mt.py` |
-| 3 | **Wrong output transform** | Potential NaN from bad unscaling | `UnscaleTransform.from_standard_scaler(scaler)` on the FFN | `src/models/chemprop_mt.py` |
-| 4 | **LR headroom** (kept, not sufficient alone) | — | `max_lr` 1e-3 → 2e-4, `grad_clip=1.0` | `src/models/chemprop_mt.py` |
-
-**Ruled out as primary cause:** skipping the external source (MBPB `both` uses the same source and
-is stable), misalignment/`n_overlap=0` alone, and learning-rate reduction alone.
-
-### Other pipeline fixes (same session)
-
-5. **LLM narrative robustness.** Aitta now uses a larger token budget (`conf/llm.yaml`
-   `max_tokens` 1024 → 8192) and `collect --llm` falls back to the deterministic report instead
-   of crashing (`src/agents/llm.py`, `src/agents/llm_overrides.py`).
+1. **Empty-batch NaN (root cause of the MBPB `external` failures).** Sparse arms
+   (`baseline`/`external`) kept ExpansionRx rows with no label in *any* task column; under the
+   masked multi-task loss, batches with zero valid labels produced `0/0 = NaN`, which propagated
+   and yielded all-NaN predictions (`RAE=nan`). Fix: the data agent now drops fully-unlabeled
+   rows from the training pool (`src/agents/data_agent.py`).
+2. **Shared-checkpoint race.** Concurrent array tasks writing Lightning checkpoints into one
+   shared `checkpoints/` dir raced (`FileNotFoundError`). Fix: `enable_checkpointing=False` on
+   the trainer (`src/models/chemprop_mt.py`); also fixed the FFN `output_transform` and pinned
+   `LightningEnvironment` to avoid a Cray/PMI crash.
+3. **Training-stability margin.** Lowered Chemprop `max_lr` 1e-3 → 2e-4 for extra headroom on
+   sparse pools.
+4. **LLM narrative robustness.** The Aitta planner narrative now (a) uses a larger token budget
+   so the reasoning model returns non-empty JSON (`conf/llm.yaml` `max_tokens` 1024 → 8192) and
+   (b) degrades gracefully to the deterministic report instead of crashing `collect`
+   (`src/agents/llm.py`, `src/agents/llm_overrides.py`).
