@@ -369,6 +369,83 @@ above; the other four metrics follow.
 
 ---
 
+## Update — further improvements (post-hoc, statistically validated)
+
+A second pass (fully isolated in [`../further-improvements/`](../further-improvements/) — **nothing in this
+run was modified**) added reproducibility/statistics tooling and a *real* transfer mechanism, then
+re-evaluated the few-shot regime with paired significance tests on a GPU sweep (LLM disabled, so the
+mechanism is fixed rather than agent-chosen).
+
+**What was added**
+
+1. **Per-molecule predictions are now persisted.** Every run writes native-scale `(y_true, y_pred)`,
+   so any metric can be recomputed and significance-tested offline — no retraining.
+2. **Official RAE wired and verified.** Recomputing every cell offline from the stored predictions
+   gives `max |official − range_normalized| = 0.00e+00` → the headline RAE numbers above **are**
+   exactly the challenge-scoring RAE (now confirmed, not assumed). The `official` stub referenced in
+   *Alternative metrics* is no longer a stub.
+3. **Two transfer mechanisms the original sweep never truly ran were implemented for real.** In this
+   run `pretrain_finetune` and `frozen_embed` silently degraded to a from-scratch model (nothing ever
+   produced a pretrained checkpoint), which is why only `gbm_baseline` + `mt_cotrain` appear above.
+   The patched ML agent now genuinely pretrains the Chemprop encoder on the auxiliary tasks and then
+   transfers. Controlled sweep: 3 weak endpoints × {external, both} × n∈{25, 50, 100} × 5 seeds
+   (270 GPU jobs, 0 failures).
+
+### `pretrain_finetune` — a real few-shot win
+
+Pretrain the encoder on the auxiliary heads, then fine-tune on the sparse target. Paired against the
+original `mt_cotrain` per `(endpoint, arm, n, seed)`; **Δ = old − new** (positive ⇒ *lower* error);
+95% CI from a 10k paired bootstrap over the 5 seeds.
+
+| endpoint | arm | n | `mt_cotrain` RAE | `pretrain_finetune` RAE | Δ (95% CI) | seeds↑ | sig |
+|---|---|---:|---:|---:|---|:--:|:--:|
+| KSOL | both | 50 | 0.402 | **0.379** | +0.023 (+0.007, +0.038) | 4/5 | **YES** |
+| KSOL | external | 100 | 0.402 | **0.381** | +0.021 (+0.002, +0.041) | 5/5 | **YES** |
+| MPPB | both | 50 | 0.152 | **0.134** | +0.018 (+0.003, +0.033) | 4/5 | **YES** |
+| MBPB | external | 50 | 0.152 | 0.142 | +0.010 (−0.006, +0.032) | 4/5 | ns |
+| MBPB | external | 100 | 0.133 | 0.123 | +0.009 (−0.007, +0.031) | 2/5 | ns |
+| MPPB | both | 100 | 0.144 | 0.131 | +0.013 (−0.007, +0.033) | 3/5 | ns |
+| KSOL | external | 50 | 0.400 | 0.386 | +0.015 (−0.007, +0.036) | 3/5 | ns |
+| MBPB | both | 50 | 0.122 | 0.122 | +0.000 (−0.010, +0.011) | 3/5 | ns |
+| MBPB | both | 100 | 0.127 | 0.128 | −0.000 (−0.017, +0.017) | 2/5 | ns |
+| MPPB | external | 50 | 0.179 | 0.178 | +0.001 (−0.008, +0.012) | 2/5 | ns |
+| KSOL | both | 100 | 0.387 | 0.409 | −0.022 (−0.071, +0.020) | 2/5 | ns |
+| MPPB | external | 100 | 0.152 | 0.158 | −0.006 (−0.011, +0.000) | 1/5 | ns |
+
+`pretrain_finetune` **significantly lowers RAE in 3/12 cells** (CI excludes 0) and is **never
+significantly worse in any cell**. The gains are modest in magnitude (~0.02 RAE) but real and paired.
+
+### It resolves the n=25 "collapse" (Caveat 4 above)
+
+The original flagged n=25 as unreliable: the three transfer arms collapsed to one identical,
+high-variance value because the few-shot fallback **ignored the auxiliary data**. Because
+`pretrain_finetune` injects the aux signal through the *encoder* before it ever sees the 25 target
+labels, the arms differentiate and error drops sharply — flipping transfer from net-*harmful* to
+net-*beneficial* vs the single-task baseline:
+
+| endpoint (n=25) | baseline | old transfer (all arms collapsed) | `pretrain_finetune` +both | `pretrain_finetune` +external |
+|---|---:|---:|---:|---:|
+| MBPB | 0.165 | 0.162 | **0.116** | 0.139 |
+| MPPB | 0.181 | 0.205 *(worse than baseline)* | **0.144** | 0.170 |
+| KSOL | 0.414 | 0.429 *(worse than baseline)* | **0.361** | 0.372 |
+
+(n=25 is reported descriptively, not bootstrapped: the original n=25 arms were a degenerate,
+aux-ignoring fallback, so there is no matched `mt_cotrain` arm to pair against.)
+
+### `frozen_embed` — ruled out
+
+A ridge head on the *frozen* pretrained embeddings is worse in **all 12 cells** and unstable on KSOL
+(RAE blows up to 1.4–9.9). Clean negative result: for these endpoints, fine-tuning the encoder beats
+freezing it — the encoder needs to adapt to the target assay.
+
+**Reproduce / inspect.** Patched source copy, configs, sbatch launchers, and analysis scripts
+(`rescore_official.py`, `compare_fewshot.py`) live in [`../further-improvements/`](../further-improvements/);
+raw tables in `further-improvements/outputs/` and per-molecule predictions in
+`further-improvements/results-fewshot/{pf,fe}/preds/`. The heavy work ran on GPU compute nodes via
+`sbatch`; nothing intensive runs on the login node.
+
+---
+
 # Appendix — Build plan / full spec
 
 Below is the complete `Plan.md` build spec verbatim, embedded here so this document ships
