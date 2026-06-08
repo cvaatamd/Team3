@@ -79,6 +79,9 @@ submitting and the reports + plots will still be produced.
 
 ## Step-by-step reproduction (copy-paste)
 
+> **Hands-on runbook:** [`RUNBOOK.md`](./RUNBOOK.md) — launch, monitor, single-round submit,
+> re-run/resume, alternative metrics, troubleshooting.
+
 Run from the project root on a **LUMI login node**. Everything is standalone.
 
 ```bash

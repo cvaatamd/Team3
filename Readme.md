@@ -301,7 +301,8 @@ cat results-fullexp/<round>/report.md             # round in {hlm,mbpb,ksol,mppb
 ```
 
 Full step-by-step reproduction and the documented findings (with plots) live in
-[results-fullexp/EXPERIMENT.md](results-fullexp/EXPERIMENT.md). Config: `conf/fullexp-*.yaml`,
+[results-fullexp/EXPERIMENT.md](results-fullexp/EXPERIMENT.md). Operational runbook:
+[results-fullexp/RUNBOOK.md](results-fullexp/RUNBOOK.md). Config: `conf/fullexp-*.yaml`,
 `conf/slurm-fullexp.yaml`. The smaller 3-round exploration is in
 [results-rounds/EXPERIMENT.md](results-rounds/EXPERIMENT.md) (`scripts/run_rounds.sh`).
 
