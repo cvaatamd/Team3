@@ -1,0 +1,13 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) ModuleLabel/label   2) lumi-tools/26.05   3) init-lumi/0.2
+
+The following sticky modules could not be reloaded:
+
+  1) lumi-tools
+2026-06-05 18:30:17,748 INFO experiment.runner | [HLM_CLint__intra_task__50__s4] already done, skipping
+2026-06-05 18:30:19,054 INFO experiment.runner | [MBPB__external__50__s4] starting on host=nid005049 pid=5155
+2026-06-05 18:31:04,415 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+slurmstepd: error: *** STEP 19068866.0 ON nid005049 CANCELLED AT 2026-06-05T18:31:14 ***
+slurmstepd: error: *** JOB 19068866 ON nid005049 CANCELLED AT 2026-06-05T18:31:14 ***

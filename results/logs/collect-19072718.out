@@ -1,0 +1,4 @@
+[collect] host=nid005032 job=19072718
+[collect] work_dir=/pfs/lustrep1/scratch/project_462001520/Team3/Team3
+[collect] results_dir=/pfs/lustrep1/scratch/project_462001520/Team3/Team3/results
+[collect] done — wrote results.parquet, curves.png, ma_rae.png, report.md

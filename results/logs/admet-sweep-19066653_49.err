@@ -1,0 +1,65 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) ModuleLabel/label   2) lumi-tools/26.05   3) init-lumi/0.2
+
+The following sticky modules could not be reloaded:
+
+  1) lumi-tools
+2026-06-05 16:44:49,920 INFO experiment.runner | [HLM_CLint__intra_task__250__s4] starting on host=nid007939 pid=30093
+2026-06-05 16:44:53,858 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+2026-06-05 16:44:54,298 INFO agents.llm | LLM cache hit choose_mechanism::HLM CLint::mt_cotrain::250.json
+2026-06-05 16:44:54,314 INFO agents.llm_overrides | LLM picked mechanism=mt_cotrain for HLM CLint (n_target=250, requested=mt_cotrain): The request is for mt_cotrain and the target task has a moderate number of labels (250). Auxiliary tasks have ample label counts, making multi-task co‑training appropriate. No pool shape conflict exists, so the requested mechanism is retained.
+INFO: [rank: 0] Seed set to 4
+2026-06-05 16:45:22,545 INFO lightning.fabric.utilities.seed | [rank: 0] Seed set to 4
+INFO: GPU available: True (cuda), used: True
+2026-06-05 16:45:22,658 INFO lightning.pytorch.utilities.rank_zero | GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+2026-06-05 16:45:22,658 INFO lightning.pytorch.utilities.rank_zero | TPU available: False, using: 0 TPU cores
+INFO: 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+2026-06-05 16:45:22,658 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+INFO: 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+2026-06-05 16:45:22,665 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+INFO: You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+2026-06-05 16:45:22,778 INFO lightning.pytorch.utilities.rank_zero | You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:881: Checkpoint directory /pfs/lustrep1/scratch/project_462001520/Team3/Team3/checkpoints exists and is not empty.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:45:22,780 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO: Loading `train_dataloader` to estimate number of stepping batches.
+2026-06-05 16:45:23,704 INFO lightning.pytorch.utilities.rank_zero | Loading `train_dataloader` to estimate number of stepping batches.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+INFO: `Trainer.fit` stopped: `max_epochs=80` reached.
+2026-06-05 16:50:19,451 INFO lightning.pytorch.utilities.rank_zero | `Trainer.fit` stopped: `max_epochs=80` reached.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:50:19,462 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'predict_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+2026-06-05 16:50:21,248 INFO experiment.runner | [HLM_CLint__intra_task__250__s4] done in 331.3s, RAE=0.1166
+2026-06-05 16:50:24,588 INFO experiment.runner | [MBPB__external__250__s4] starting on host=nid007939 pid=31165
+2026-06-05 16:50:28,308 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+2026-06-05 16:50:28,640 INFO agents.llm | LLM cache hit choose_mechanism::MBPB::mt_cotrain::250.json
+2026-06-05 16:50:28,682 INFO agents.llm_overrides | LLM picked mechanism=mt_cotrain for MBPB (n_target=250, requested=mt_cotrain): The request is for mt_cotrain and the target task has a moderate number of labels (250). Auxiliary tasks have ample label counts, making multi-task co‑training appropriate. No pool shape conflicts with the requested mechanism.
+INFO: [rank: 0] Seed set to 4
+2026-06-05 16:50:35,044 INFO lightning.fabric.utilities.seed | [rank: 0] Seed set to 4
+INFO: GPU available: True (cuda), used: True
+2026-06-05 16:50:35,155 INFO lightning.pytorch.utilities.rank_zero | GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+2026-06-05 16:50:35,156 INFO lightning.pytorch.utilities.rank_zero | TPU available: False, using: 0 TPU cores
+INFO: 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+2026-06-05 16:50:35,156 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+INFO: You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+2026-06-05 16:50:35,253 INFO lightning.pytorch.utilities.rank_zero | You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:50:35,254 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO: Loading `train_dataloader` to estimate number of stepping batches.
+2026-06-05 16:50:35,686 INFO lightning.pytorch.utilities.rank_zero | Loading `train_dataloader` to estimate number of stepping batches.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+INFO: `Trainer.fit` stopped: `max_epochs=80` reached.
+2026-06-05 16:55:20,729 INFO lightning.pytorch.utilities.rank_zero | `Trainer.fit` stopped: `max_epochs=80` reached.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:55:20,749 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'predict_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+2026-06-05 16:55:22,408 INFO experiment.runner | [MBPB__external__250__s4] done in 297.8s, RAE=nan

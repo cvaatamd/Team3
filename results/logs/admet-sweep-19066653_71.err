@@ -1,0 +1,120 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) ModuleLabel/label   2) lumi-tools/26.05   3) init-lumi/0.2
+
+The following sticky modules could not be reloaded:
+
+  1) lumi-tools
+2026-06-05 16:46:45,977 INFO experiment.runner | [HLM_CLint__external__100__s1] starting on host=nid007877 pid=40456
+2026-06-05 16:46:49,613 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+2026-06-05 16:46:50,105 INFO agents.llm | LLM cache hit select_sources::HLM CLint.json
+2026-06-05 16:46:50,107 INFO agents.llm_overrides | LLM kept 1/1 sources for HLM CLint: ['biogen/adme-fang-v1']
+2026-06-05 16:46:50,107 WARNING agents.data_agent | skipping source biogen/adme-fang-v1 for HLM CLint: No module named 'polaris'
+2026-06-05 16:46:50,109 INFO agents.llm | LLM cache hit choose_mechanism::HLM CLint::mt_cotrain::100.json
+2026-06-05 16:46:50,110 INFO agents.llm_overrides | LLM picked mechanism=mt_cotrain for HLM CLint (n_target=100, requested=mt_cotrain): Target endpoint has 100 labels (moderate) and auxiliary tasks provide ample data (thousands of labels). This fits the default scenario for multi-task co‑training, matching the requested mechanism.
+INFO: [rank: 0] Seed set to 1
+2026-06-05 16:47:25,693 INFO lightning.fabric.utilities.seed | [rank: 0] Seed set to 1
+INFO: GPU available: True (cuda), used: True
+2026-06-05 16:47:25,819 INFO lightning.pytorch.utilities.rank_zero | GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+2026-06-05 16:47:25,819 INFO lightning.pytorch.utilities.rank_zero | TPU available: False, using: 0 TPU cores
+INFO: 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+2026-06-05 16:47:25,819 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+INFO: 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+2026-06-05 16:47:25,822 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+INFO: You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+2026-06-05 16:47:25,943 INFO lightning.pytorch.utilities.rank_zero | You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:881: Checkpoint directory /pfs/lustrep1/scratch/project_462001520/Team3/Team3/checkpoints exists and is not empty.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:47:25,944 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO: Loading `train_dataloader` to estimate number of stepping batches.
+2026-06-05 16:47:26,764 INFO lightning.pytorch.utilities.rank_zero | Loading `train_dataloader` to estimate number of stepping batches.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/experiment/cli.py", line 183, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/experiment/cli.py", line 175, in main
+    return run_job_cli(rest)
+           ^^^^^^^^^^^^^^^^^
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/experiment/cli.py", line 110, in run_job_cli
+    run_one(
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/experiment/runner.py", line 132, in run_one
+    result = ma.run(spec)
+             ^^^^^^^^^^^^
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/agents/ml_agent.py", line 54, in run
+    y_pred_t = self._chemprop_mt(spec, pretrained=None, freeze=False)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/agents/ml_agent.py", line 106, in _chemprop_mt
+    return train_predict_chemprop_mt(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/models/chemprop_mt.py", line 171, in train_predict_chemprop_mt
+    # `checkpoints/` dir, which races under high concurrency (FileNotFoundError on
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/trainer.py", line 584, in fit
+    call._call_and_handle_interrupt(
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/call.py", line 49, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/trainer.py", line 630, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path, weights_only=weights_only)
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/trainer.py", line 1079, in _run
+    results = self._run_stage()
+              ^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/trainer.py", line 1123, in _run_stage
+    self.fit_loop.run()
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/loops/fit_loop.py", line 218, in run
+    self.on_advance_end()
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/loops/fit_loop.py", line 480, in on_advance_end
+    call._call_callback_hooks(trainer, "on_train_epoch_end", monitoring_callbacks=True)
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/call.py", line 228, in _call_callback_hooks
+    fn(trainer, trainer.lightning_module, *args, **kwargs)
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/callbacks/model_checkpoint.py", line 493, in on_train_epoch_end
+    self._save_topk_checkpoint(trainer, monitor_candidates)
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/callbacks/model_checkpoint.py", line 591, in _save_topk_checkpoint
+    self._save_none_monitor_checkpoint(trainer, monitor_candidates)
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/callbacks/model_checkpoint.py", line 945, in _save_none_monitor_checkpoint
+    self._remove_checkpoint(trainer, previous)
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/callbacks/model_checkpoint.py", line 1030, in _remove_checkpoint
+    trainer.strategy.remove_checkpoint(filepath)
+  File "/opt/venv/lib/python3.12/site-packages/lightning/pytorch/strategies/strategy.py", line 501, in remove_checkpoint
+    self.checkpoint_io.remove_checkpoint(filepath)
+  File "/opt/venv/lib/python3.12/site-packages/lightning/fabric/plugins/io/torch_io.py", line 103, in remove_checkpoint
+    fs.rm(path, recursive=True)
+  File "/opt/venv/lib/python3.12/site-packages/fsspec/implementations/local.py", line 204, in rm
+    os.remove(p)
+FileNotFoundError: [Errno 2] No such file or directory: '/pfs/lustrep1/scratch/project_462001520/Team3/Team3/checkpoints/epoch=1-step=150-v1.ckpt'
+2026-06-05 16:48:05,594 INFO experiment.runner | [MBPB__both__100__s1] starting on host=nid007877 pid=41154
+2026-06-05 16:48:08,540 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+2026-06-05 16:48:08,878 INFO agents.llm | LLM cache hit choose_mechanism::MBPB::mt_cotrain::100.json
+2026-06-05 16:48:08,909 INFO agents.llm_overrides | LLM picked mechanism=mt_cotrain for MBPB (n_target=100, requested=mt_cotrain): The request asks for mt_cotrain and the target task has 100 labels, which is moderate. Auxiliary tasks have ample label counts, making multi-task co‑training the appropriate default choice.
+INFO: [rank: 0] Seed set to 1
+2026-06-05 16:48:15,338 INFO lightning.fabric.utilities.seed | [rank: 0] Seed set to 1
+INFO: GPU available: True (cuda), used: True
+2026-06-05 16:48:15,451 INFO lightning.pytorch.utilities.rank_zero | GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+2026-06-05 16:48:15,451 INFO lightning.pytorch.utilities.rank_zero | TPU available: False, using: 0 TPU cores
+INFO: 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+2026-06-05 16:48:15,451 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+INFO: You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+2026-06-05 16:48:15,549 INFO lightning.pytorch.utilities.rank_zero | You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:48:15,549 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO: Loading `train_dataloader` to estimate number of stepping batches.
+2026-06-05 16:48:15,714 INFO lightning.pytorch.utilities.rank_zero | Loading `train_dataloader` to estimate number of stepping batches.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+INFO: `Trainer.fit` stopped: `max_epochs=80` reached.
+2026-06-05 16:53:11,522 INFO lightning.pytorch.utilities.rank_zero | `Trainer.fit` stopped: `max_epochs=80` reached.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:53:11,545 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'predict_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+2026-06-05 16:53:13,260 INFO experiment.runner | [MBPB__both__100__s1] done in 307.7s, RAE=0.1017
+srun: error: nid007877: task 0: Exited with exit code 1
+srun: Terminating StepId=19066806.0

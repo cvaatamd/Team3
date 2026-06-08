@@ -1,0 +1,71 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) ModuleLabel/label   2) lumi-tools/26.05   3) init-lumi/0.2
+
+The following sticky modules could not be reloaded:
+
+  1) lumi-tools
+2026-06-05 16:44:49,994 INFO experiment.runner | [HLM_CLint__intra_task__100__s1] starting on host=nid007949 pid=63419
+2026-06-05 16:44:54,002 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+2026-06-05 16:44:54,867 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-05 16:44:54,868 INFO openai._base_client | Retrying request to /chat/completions in 30.000000 seconds
+2026-06-05 16:45:24,879 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-05 16:45:24,880 INFO openai._base_client | Retrying request to /chat/completions in 30.000000 seconds
+2026-06-05 16:45:54,890 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-05 16:45:54,890 WARNING agents.llm | Aitta call failed (attempt 1/7, sleeping 61.7s): Error code: 429 - {'error': 'too_many_requests', 'error_description': 'You have exceeded the request rate limit.', 'error_uri': None}
+2026-06-05 16:47:07,364 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 16:47:07,374 INFO agents.llm_overrides | LLM picked mechanism=mt_cotrain for HLM CLint (n_target=100, requested=mt_cotrain): The request is for mt_cotrain and the target task has 100 labels, which is beyond the very small regime (<20-30) where frozen_embed would be preferred. There are multiple auxiliary tasks with substantial label counts (ranging from ~200 to >5000), making multi‑task co‑training the appropriate default choice.
+INFO: [rank: 0] Seed set to 1
+2026-06-05 16:47:18,391 INFO lightning.fabric.utilities.seed | [rank: 0] Seed set to 1
+INFO: GPU available: True (cuda), used: True
+2026-06-05 16:47:18,513 INFO lightning.pytorch.utilities.rank_zero | GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+2026-06-05 16:47:18,513 INFO lightning.pytorch.utilities.rank_zero | TPU available: False, using: 0 TPU cores
+INFO: 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+2026-06-05 16:47:18,513 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+INFO: 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+2026-06-05 16:47:18,516 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+INFO: You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+2026-06-05 16:47:18,619 INFO lightning.pytorch.utilities.rank_zero | You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/callbacks/model_checkpoint.py:881: Checkpoint directory /pfs/lustrep1/scratch/project_462001520/Team3/Team3/checkpoints exists and is not empty.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:47:18,620 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO: Loading `train_dataloader` to estimate number of stepping batches.
+2026-06-05 16:47:19,127 INFO lightning.pytorch.utilities.rank_zero | Loading `train_dataloader` to estimate number of stepping batches.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+INFO: `Trainer.fit` stopped: `max_epochs=80` reached.
+2026-06-05 16:52:06,448 INFO lightning.pytorch.utilities.rank_zero | `Trainer.fit` stopped: `max_epochs=80` reached.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:52:06,458 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'predict_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+2026-06-05 16:52:08,155 INFO experiment.runner | [HLM_CLint__intra_task__100__s1] done in 438.2s, RAE=0.0976
+2026-06-05 16:52:10,646 INFO experiment.runner | [MBPB__external__100__s1] starting on host=nid007949 pid=65575
+2026-06-05 16:52:13,596 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+2026-06-05 16:52:13,928 INFO agents.llm | LLM cache hit choose_mechanism::MBPB::mt_cotrain::100.json
+2026-06-05 16:52:13,929 INFO agents.llm_overrides | LLM picked mechanism=mt_cotrain for MBPB (n_target=100, requested=mt_cotrain): The request asks for mt_cotrain and the target task has 100 labels, which is moderate. Auxiliary tasks have ample label counts, making multi-task co‑training the appropriate default choice.
+INFO: [rank: 0] Seed set to 1
+2026-06-05 16:52:20,238 INFO lightning.fabric.utilities.seed | [rank: 0] Seed set to 1
+INFO: GPU available: True (cuda), used: True
+2026-06-05 16:52:20,350 INFO lightning.pytorch.utilities.rank_zero | GPU available: True (cuda), used: True
+INFO: TPU available: False, using: 0 TPU cores
+2026-06-05 16:52:20,350 INFO lightning.pytorch.utilities.rank_zero | TPU available: False, using: 0 TPU cores
+INFO: 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+2026-06-05 16:52:20,350 INFO lightning.pytorch.utilities.rank_zero | 💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+INFO: You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+2026-06-05 16:52:20,446 INFO lightning.pytorch.utilities.rank_zero | You are using a CUDA device ('AMD Instinct MI250X') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:52:20,446 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+INFO: Loading `train_dataloader` to estimate number of stepping batches.
+2026-06-05 16:52:20,610 INFO lightning.pytorch.utilities.rank_zero | Loading `train_dataloader` to estimate number of stepping batches.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/utilities/_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+INFO: `Trainer.fit` stopped: `max_epochs=80` reached.
+2026-06-05 16:57:03,848 INFO lightning.pytorch.utilities.rank_zero | `Trainer.fit` stopped: `max_epochs=80` reached.
+INFO: LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+2026-06-05 16:57:03,867 INFO lightning.pytorch.accelerators.cuda | LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/venv/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:434: The 'predict_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=6` in the `DataLoader` to improve performance.
+2026-06-05 16:57:05,442 INFO experiment.runner | [MBPB__external__100__s1] done in 294.8s, RAE=nan

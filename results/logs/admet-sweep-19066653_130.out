@@ -1,0 +1,3 @@
+[slurm] host=nid007901 job=19067119 task=130
+[worker] array task 130 handles manifest indices: 130
+[worker] === manifest index 130 ===

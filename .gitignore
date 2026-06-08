@@ -1,7 +1,9 @@
 *.pyc
 __pycache__/
 .pytest_cache/
-results/
+# Default sweep output (results/) is tracked; skip regenerable cache + backups only.
+results/llm_cache/
+results/*.bak
 *.egg-info/
 .venv/
 conf/.aitta_token

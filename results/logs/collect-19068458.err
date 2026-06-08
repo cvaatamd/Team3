@@ -1,0 +1,404 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) ModuleLabel/label   2) lumi-tools/26.05   3) init-lumi/0.2
+
+The following sticky modules could not be reloaded:
+
+  1) lumi-tools
+2026-06-05 18:17:32,633 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/HLM_CLint__external__100__s3.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:32,898 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/HLM_CLint__external__50__s3.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,480 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__100__s0.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,493 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__100__s1.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,504 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__100__s2.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,519 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__100__s3.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,536 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__100__s4.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,560 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__250__s0.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,569 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__250__s1.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,586 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__250__s2.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,602 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__250__s3.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,607 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__250__s4.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,674 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__500__s0.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,689 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__500__s1.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,703 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__500__s2.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,704 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__500__s3.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,736 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__500__s4.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,744 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__50__s0.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,765 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__50__s1.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,772 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__50__s2.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,783 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__50__s3.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:34,798 WARNING experiment.runner | could not parse /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/runs/MBPB__external__50__s4.json: 5 validation errors for EvalResult
+rae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.mae
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.rmse
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.r2
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+extra_metrics.spearman
+  Input should be a valid number [type=float_type, input_value=None, input_type=NoneType]
+    For further information visit https://errors.pydantic.dev/2.13/v/float_type
+2026-06-05 18:17:36,002 INFO __main__ | collected 218 results -> /pfs/lustrep1/scratch/project_462001520/Team3/Team3/results/results.parquet
+2026-06-05 18:17:39,563 INFO data.expansionrx | ExpansionRx loaded: train=5326, test=2282
+2026-06-05 18:18:05,678 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 18:18:05,684 WARNING agents.llm | LLM JSON parse failed (attempt 1): no '{' in response: line 1 column 1 (char 0)
+2026-06-05 18:18:29,519 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 18:18:29,520 WARNING agents.llm | LLM JSON parse failed (attempt 2): no '{' in response: line 1 column 1 (char 0)
+2026-06-05 18:18:53,376 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 18:18:53,377 WARNING agents.llm | LLM JSON parse failed (attempt 3): no '{' in response: line 1 column 1 (char 0)
+2026-06-05 18:19:17,341 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 18:19:17,342 WARNING agents.llm | LLM JSON parse failed (attempt 4): no '{' in response: line 1 column 1 (char 0)
+2026-06-05 18:19:41,198 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 18:19:41,199 WARNING agents.llm | LLM JSON parse failed (attempt 5): no '{' in response: line 1 column 1 (char 0)
+2026-06-05 18:20:05,104 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 18:20:05,104 WARNING agents.llm | LLM JSON parse failed (attempt 6): no '{' in response: line 1 column 1 (char 0)
+2026-06-05 18:20:29,055 INFO httpx | HTTP Request: POST https://aitta-api.csc.fi/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 18:20:29,056 WARNING agents.llm | LLM JSON parse failed (attempt 7): no '{' in response: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/agents/llm.py", line 146, in structured
+    obj = schema.model_validate_json(_extract_json(raw))
+                                     ^^^^^^^^^^^^^^^^^^
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/agents/llm.py", line 186, in _extract_json
+    raise json.JSONDecodeError("no '{' in response", text, 0)
+json.decoder.JSONDecodeError: no '{' in response: line 1 column 1 (char 0)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/experiment/cli.py", line 183, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/experiment/cli.py", line 177, in main
+    return plan_cli(rest)
+           ^^^^^^^^^^^^^^
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/experiment/cli.py", line 157, in plan_cli
+    (args.results_dir / "report.md").write_text(planner._write_report(df))
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/agents/llm_overrides.py", line 188, in _write_report
+    narrative = self.llm.structured(
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/pfs/lustrep1/scratch/project_462001520/Team3/Team3/src/agents/llm.py", line 161, in structured
+    raise RuntimeError("LLM structured call could not produce schema-valid JSON") \
+RuntimeError: LLM structured call could not produce schema-valid JSON
