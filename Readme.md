@@ -5,7 +5,8 @@ Implementation of the multi-task few-shot ADMET pipeline described in [Plan.md](
 Designed to run on Lumi-G via SLURM array jobs inside a Singularity container.
 
 New here? Read [OVERVIEW.md](OVERVIEW.md) for the goal of the workflow and what you get when you
-run it. Findings from the completed sweep are in [RESULTS.md](RESULTS.md).
+run it. Findings from the completed sweep are in [RESULTS.md](RESULTS.md); full design and
+reproduction: [results/EXPERIMENT.md](results/EXPERIMENT.md).
 
 ## TL;DR — run the whole thing (no prior knowledge needed)
 

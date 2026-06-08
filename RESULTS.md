@@ -2,7 +2,8 @@
 
 Characterization of auxiliary-task transfer for two ADMET endpoints, run on LUMI-G via the
 SLURM sweep in this repo. This document summarizes the final, complete sweep
-(`results/`, 240/240 jobs valid). The machine-generated companion is
+(`results/`, 240/240 jobs valid). Full experiment write-up (design, reproduction, tables with
+error bands): [`results/EXPERIMENT.md`](results/EXPERIMENT.md). The machine-generated companion is
 [`results/report.md`](results/report.md); raw per-job records live in `results/runs/` and the
 aggregate table in `results/results.parquet`.
 
